@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELT Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .slider-container {
+            margin: 20px;
+        }
+
+        .slider-label {
+            font-size: 18px;
+        }
+
+        .output {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .radio-container {
+            margin: 20px;
+        }
+
+        .radio-label {
+            font-size: 18px;
+        }
+
+        .results-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result-column {
+            flex: 1;
+            margin: 20px;
+        }
+
+        .result-label {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .first-month-rent {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <label class="slider-label">Dissolve Length (Years: <span id="dissolveLengthValue">20</span>):</label>
+        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Mortgage Length (Years: <span id="mortgageLengthValue">20</span>):</label>
+        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Home Price (Value: $<span id="slider1Value">400,000</span>):</label>
+        <input type="range" id="slider1" min="100000" max="4000000" value="400000" class="slider">
+        <output id="output1" class="output">$400,000</output>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label"># of Residents (Value: <span id="slider2Value">5</span>):</label>
+        <input type="range" id="slider2" min="1" max="20" value="5" class="slider">
+        <output id="output2" class="output">5</output>
+    </div>
+
+    <div class="first-month-rent">
+        First Month Rent: $<span id="firstMonthRentValue">0</span>
+    </div>
+
+    <div class="radio-container">
+        <label class="radio-label">Select Resident Type:</label><br>
+        <input type="radio" id="earliest" name="resident" value="earliest">
+        <label for="earliest">Earliest residents</label><br>
+        <input type="radio" id="early" name="resident" value="early">
+        <label for="early">Early residents</label><br>
+        <input type="radio" id="midterm" name="resident" value="midterm">
+        <label for="midterm">Mid-term residents</label><br>
+        <input type="radio" id="late" name="resident" value="late">
+        <label for="late">Late residents</label><br>
+        <input type="radio" id="latest" name="resident" value="latest">
+        <label for="latest">Latest residents</label><br>
+    </div>
+
+    <div class="results-container">
+        <div class="result-column">
+            <label class="result-label">Result 1:</label>
+            <div id="result1" class="output">-</div>
+            <label class="result-label">Result 2:</label>
+            <div id="result2" class="output">-</div>
+            <label class="result-label">Result 3:</label>
+            <div id="result3" class="output">-</div>
+            <label class="result-label">Result 4:</label>
+            <div id="result4" class="output">-</div>
+            <label class="result-label">Result 5:</label>
+            <div id="result5" class="output">-</div>
+        </div>
+        <div class="result-column">
+            <label class="result-label">Result 1:</label>
+            <div id="result6" class="output">-</div>
+            <label class="result-label">Result 2:</label>
+            <div id="result7" class="output">-</div>
+            <label class="result-label">Result 3:</label>
+            <div id="result8" class="output">-</div>
+            <label class="result-label">Result 4:</label>
+            <div id="result9" class="output">-</div>
+            <label class="result-label">Result 5:</label>
+            <div id="result10" class="output">-</div>
+        </div>
+    </div>
+
+    <script>
+        const dissolveLength = document.getElementById('dissolveLength');
+        const dissolveLengthValue = document.getElementById('dissolveLengthValue');
+        const mortgageLength = document.getElementById('mortgageLength');
+        const mortgageLengthValue = document.getElementById('mortgageLengthValue');
+        const slider1 = document.getElementById('slider1');
+        const output1 = document.getElementById('output1');
+        const slider1Value = document.getElementById('slider1Value');
+        const slider2 = document.getElementById('slider2');
+        const output2 = document.getElementById('output2');
+        const slider2Value = document.getElementById('slider2Value');
+        const firstMonthRentValue = document.getElementById('firstMonthRentValue');
+
+        dissolveLength.addEventListener('input', () => {
+            const value = parseInt(dissolveLength.value);
+            dissolveLengthValue.textContent = value;
+            updateFirstMonthRent();
+        });
+
+        mortgageLength.addEventListener('input', () => {
+            const value = parseInt(mortgageLength.value);
+            mortgageLengthValue.textContent = value;
+            updateFirstMonthRent();
+        });
+
+        slider1.addEventListener('input', () => {
+            const value1 = parseInt(slider1.value);
+            output1.textContent = `$${value1.toLocaleString()}`;
+            slider1Value.textContent = `$${value1.toLocaleString()}`;
+            updateFirstMonthRent();
+        });
+
+        slider2.addEventListener('input', () => {
+            const value2 = parseInt(slider2.value);
+            output2.textContent = value2;
+            slider2Value.textContent = value2;
+            updateFirstMonthRent();
+        });
+
+        function updateFirstMonthRent() {
+            const priceAfterInterest = parseInt(slider1.value) * 1.7;
+            const mortgageLengthValue = parseInt(mortgageLength.value);
+            const housemateSliderValue = parseInt(slider2.value);
+            const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
+            firstMonthRentValue.textContent = firstMonthRent;
+        }
+    </script>
+</body>
+</html>
