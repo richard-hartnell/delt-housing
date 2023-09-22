@@ -77,6 +77,12 @@
         <output id="output2" class="output">5</output>
     </div>
 
+    <div class="slider-container">
+        <label class="slider-label">Year (Value: <span id="yearValue">50</span>):</label>
+        <input type="range" id="year" min="0" max="100" value="50" class="slider">
+        <output id="yearOutput" class="output">50</output>
+    </div>
+
     <div class="first-month-rent">
         First Month Rent: $<span id="firstMonthRentValue">0</span>
     </div>
@@ -134,6 +140,10 @@
         const output2 = document.getElementById('output2');
         const slider2Value = document.getElementById('slider2Value');
         const firstMonthRentValue = document.getElementById('firstMonthRentValue');
+        const year = document.getElementById('year');
+        const yearOutput = document.getElementById('yearOutput');
+
+
 
         dissolveLength.addEventListener('input', () => {
             const value = parseInt(dissolveLength.value);
@@ -161,6 +171,12 @@
             updateFirstMonthRent();
         });
 
+        year.addEventListener('input', () => {
+            const yearValue = parseInt(year.value);
+            yearOutput.textContent = yearValue;
+            updateFirstMonthRent();
+        });
+
         function updateFirstMonthRent() {
             const priceAfterInterest = parseInt(slider1.value) * 1.7;
             const mortgageLengthValue = parseInt(mortgageLength.value);
@@ -168,6 +184,7 @@
             const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
             firstMonthRentValue.textContent = firstMonthRent;
         }
+
     </script>
 </body>
 </html>
