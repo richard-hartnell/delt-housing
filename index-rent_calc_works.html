@@ -20,7 +20,6 @@
 
         .output {
             font-size: 24px;
-            
             font-weight: bold;
             margin: 10px;
         }
@@ -41,36 +40,39 @@
 </head>
 <body>
     <div class="slider-container">
-        <label class="slider-label">DELTflation (Value: <span id="DELTflationValue">1.03</span>):</label>
+        <label class="slider-label">DELTflation:</label>
         <input type="range" id="DELTflation" min="1.03" max="1.07" step="0.002" value="1.03" class="slider">
+        <span id="DELTflationValue">1.03</span>
     </div>
 
     <div class="slider-container">
-        <label class="slider-label">Dissolve Length (Years: <span id="dissolveLengthValue">20</span>):</label>
+        <label class="slider-label">Dissolve Length:</label>
         <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+        <span id="dissolveLengthValue">20</span>
     </div>
 
     <div class="slider-container">
-        <label class="slider-label">Mortgage Length (Years: <span id="mortgageLengthValue">20</span>):</label>
+        <label class="slider-label">Mortgage Length:</label>
         <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+        <span id="mortgageLengthValue">20</span>
     </div>
 
     <div class="slider-container">
-        <label class="slider-label">Home Price (Value: $<span id="slider1Value">400,000</span>):</label>
+        <label class="slider-label">Home Price:</label>
         <input type="range" id="slider1" min="100000" max="4000000" value="400000" class="slider">
-        <output id="output1" class="output">$400,000</output>
+        <span id="slider1Value">$400,000</span>
     </div>
 
     <div class="slider-container">
-        <label class="slider-label"># of Residents (Value: <span id="slider2Value">5</span>):</label>
+        <label class="slider-label"># of Residents:</label>
         <input type="range" id="slider2" min="1" max="20" value="5" class="slider">
-        <output id="output2" class="output">5</output>
+        <span id="slider2Value">5</span>
     </div>
 
     <div class="slider-container">
-        <label class="slider-label">Year (Value: <span id="yearValue">50</span>):</label>
+        <label class="slider-label">Year:</label>
         <input type="range" id="year" min="1" max="100" value="1" class="slider">
-        <output id="yearOutput" class="output">50</output>
+        <span id="yearValue">50</span>
     </div>
 
     <div class="first-month-rent">
@@ -167,12 +169,10 @@
             const MRflation = 1.072;
             for (let i = 1; i <= 100; i++) {
                 MRindex[i] = Math.round(firstMonthRentValue.textContent * (Math.pow(MRflation, i)));
-        }
-        document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
+            }
+            document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
         };
         
-
-
         // Function to update "First Month Rent"
         const updateFirstMonthRent = () => {
             const priceAfterInterest = parseInt(slider1.value) * 1.7;
