@@ -36,6 +36,21 @@
             display: flex;
             justify-content: space-between;
         }
+
+        .tenant-section {
+            display: flex;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .tenant-slider {
+            flex: 1;
+        }
+
+        .tenant-info {
+            flex: 1;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -54,19 +69,19 @@
     <div class="slider-container">
         <label class="slider-label">Mortgage Length:</label>
         <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
-        <span id="mortgageLengthValue">20</span>
+        <span id="mortgageLengthValue">20 years</span>
     </div>
 
     <div class="slider-container">
         <label class="slider-label">Home Price:</label>
-        <input type="range" id="slider1" min="100000" max="4000000" value="400000" class="slider">
-        <span id="slider1Value">$400,000</span>
+        <input type="range" id="homePrice" min="100000" max="4000000" value="400000" class="slider">
+        <span id="homePriceValue">$400,000</span>
     </div>
 
     <div class="slider-container">
         <label class="slider-label"># of Residents:</label>
-        <input type="range" id="slider2" min="1" max="20" value="5" class="slider">
-        <span id="slider2Value">5</span>
+        <input type="range" id="housemates" min="1" max="20" value="5" class="slider">
+        <span id="housematesValue">5</span>
     </div>
 
     <div class="slider-container">
@@ -79,18 +94,18 @@
         First Month Rent: $<span id="firstMonthRentValue">0</span>
     </div>
 
-    <div class="radio-container">
-        <label class="radio-label">Select Resident Type:</label><br>
-        <input type="radio" id="earliest" name="resident" value="earliest">
-        <label for="earliest">Earliest residents</label><br>
-        <input type="radio" id="early" name="resident" value="early">
-        <label for="early">Early residents</label><br>
-        <input type="radio" id="midterm" name="resident" value="midterm">
-        <label for="midterm">Mid-term residents</label><br>
-        <input type="radio" id="late" name="resident" value="late">
-        <label for="late">Late residents</label><br>
-        <input type="radio" id="latest" name="resident" value="latest">
-        <label for="latest">Latest residents</label><br>
+    <div class="tenant-section">
+        <div class="tenant-slider">
+            <label class="slider-label">Tenant's Year:</label>
+            <input type="range" id="tenantYear" min="1" max="100" value="1" class="slider" step="1">
+        </div>
+        <div class="tenant-info">
+            <p>I moved in during year <span id="tenantStartYear">X</span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
+            <p>I paid <span id="tenantPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears">Z</span> years.</p>
+            <p>When I moved in, rent was <span id="tenantStartRent">A%</span> of market rate.</p>
+            <p>When I moved out, rent was <span id="tenantEndRent">B%</span> of market rate!</p>
+            <p>I saved <span id="tenantRentSavings">C%</span> on my rent compared to a market-rate tenant, roughly <span id="tenantIncomeSavings">D%</span> of my income.</p>
+        </div>
     </div>
 
     <div class="results-container">
@@ -133,18 +148,28 @@
         const dissolveLengthValue = document.getElementById('dissolveLengthValue');
         const mortgageLength = document.getElementById('mortgageLength');
         const mortgageLengthValue = document.getElementById('mortgageLengthValue');
-        const slider1 = document.getElementById('slider1');
+        const homePrice = document.getElementById('homePrice');
         const output1 = document.getElementById('output1');
-        const slider1Value = document.getElementById('slider1Value');
-        const slider2 = document.getElementById('slider2');
+        const homePriceValue = document.getElementById('homePriceValue');
+        const housemates = document.getElementById('housemates');
         const output2 = document.getElementById('output2');
-        const slider2Value = document.getElementById('slider2Value');
+        const housematesValue = document.getElementById('housematesValue');
         const year = document.getElementById('year');
         const yearValue = document.getElementById('yearValue');
         const yearOutput = document.getElementById('yearOutput');
         const firstMonthRentValue = document.getElementById('firstMonthRentValue');
+        const tenantYear = document.getElementById('tenantYear');
+        const tenantStartYear = document.getElementById('tenantStartYear');
+        const tenantYears = document.getElementById('tenantYears');
+        const tenantPaid = document.getElementById('tenantPaid');
+        const tenantReceived = document.getElementById('tenantReceived');
+        const tenantReceivedYears = document.getElementById('tenantReceivedYears');
+        const tenantStartRent = document.getElementById('tenantStartRent');
+        const tenantEndRent = document.getElementById('tenantEndRent');
+        const tenantRentSavings = document.getElementById('tenantRentSavings');
+        const tenantIncomeSavings = document.getElementById('tenantIncomeSavings');
         const inflation = 1.03;
-    
+
         // Calculate DELTindex based on conditions
         const DELTindex = {};
         const updateDELTindex = () => {
@@ -162,7 +187,7 @@
             // Update the displayed DELTindex value
             document.getElementById('DELTindex').textContent = DELTindex[parseInt(yearValue.textContent)];
         };
-    
+
         // Calculate MRindex based on conditions
         const MRindex = {};
         const updateMRindex = () => {
@@ -172,51 +197,86 @@
             }
             document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
         };
-        
+
         // Function to update "First Month Rent"
         const updateFirstMonthRent = () => {
-            const priceAfterInterest = parseInt(slider1.value) * 1.7;
+            const priceAfterInterest = parseInt(homePrice.value) * 1.7;
             const mortgageLengthValue = parseInt(mortgageLength.value);
-            const housemateSliderValue = parseInt(slider2.value);
+            const housemateSliderValue = parseInt(housemates.value);
             const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
             firstMonthRentValue.textContent = firstMonthRent;
             updateDELTindex();
             updateMRindex();
         };
-    
+
+        // Function to simulate a tenant
+        const simulateTenant = () => {
+            const tenantYearValue = parseInt(tenantYear.value);
+            tenantStartYear.textContent = tenantYearValue;
+            tenantYears.textContent = tenantYearValue - parseInt(yearValue.textContent);
+            const rentSavings = ((parseInt(tenantStartRent.textContent) - parseInt(tenantEndRent.textContent)) / parseInt(tenantStartRent.textContent)) * 100;
+            tenantPaid.textContent = DELTindex[tenantYearValue] - DELTindex[parseInt(yearValue.textContent)];
+            tenantReceived.textContent = MRindex[parseInt(yearValue.textContent) + parseInt(tenantReceivedYears.textContent)] - MRindex[parseInt(yearValue.textContent)];
+            tenantRentSavings.textContent = rentSavings.toFixed(2) + "%";
+            tenantIncomeSavings.textContent = (rentSavings * 0.01 * parseInt(tenantStartRent.textContent)).toFixed(2) + "%";
+        };
+
         // Event listeners for sliders
-        const slidersToUpdateFirstMonthRent = [slider1, slider2, mortgageLength];
-    
+        const slidersToUpdateFirstMonthRent = [homePrice, housemates, mortgageLength];
+
         slidersToUpdateFirstMonthRent.forEach(slider => {
             slider.addEventListener('input', () => {
                 updateFirstMonthRent();
             });
         });
-    
+
         DELTflationSlider.addEventListener('input', () => {
             const value = parseFloat(DELTflationSlider.value).toFixed(3);
             DELTflationValue.textContent = value;
             updateDELTindex();
         });
-    
+
         dissolveLength.addEventListener('input', () => {
             const value = parseInt(dissolveLength.value);
             dissolveLengthValue.textContent = value;
             updateDELTindex();
         });
-    
+
+        mortgageLength.addEventListener('input', () => {
+            const value = parseInt(mortgageLength.value);
+            mortgageLengthValue.textContent = value + ' years';
+            updateFirstMonthRent();
+        });
+
+        homePrice.addEventListener('input', () => {
+            const value = parseInt(homePrice.value);
+            homePriceValue.textContent = '$' + value;
+            updateFirstMonthRent();
+        });
+
+        housemates.addEventListener('input', () => {
+            const value = parseInt(housemates.value);
+            housematesValue.textContent = value;
+            updateFirstMonthRent();
+        });
+
         year.addEventListener('input', () => {
             const value = parseInt(year.value);
             yearValue.textContent = value;
             updateDELTindex();
             updateMRindex();
+            simulateTenant(); // Update tenant info when the year changes
         });
-    
+
+        tenantYear.addEventListener('input', () => {
+            simulateTenant(); // Update tenant info when the tenant year changes
+        });
+
         // Initial calculation and display of DELTindex and firstMonthRentValue
         updateFirstMonthRent();
         updateDELTindex();
         updateMRindex();
+        simulateTenant(); // Initialize tenant info
     </script>
-    
 </body>
 </html>
