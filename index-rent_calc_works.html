@@ -63,6 +63,7 @@
                 display:block;
             }
         }
+
     </style>
 </head>
 <body>
@@ -102,9 +103,11 @@
         <span id="yearValue">50</span>
     </div>
 
-    <div class="first-month-rent">
+    <!-- <div class="first-month-rent">
         First Month Rent: $<span id="firstMonthRentValue">0</span>
-    </div>
+    </div> -->
+
+    <hr>
 
     <div class="tenant-section">
         <div id="move-in-out">
@@ -129,6 +132,8 @@
         </div>
         
     </div>
+
+    <hr>
 
     <div class="results-container">
         <div class="result-column">
@@ -223,7 +228,7 @@
 
         // Function to update "First Month Rent"
         const updateFirstMonthRent = () => {
-            const priceAfterInterest = parseInt(homePrice.value) * 1.7;
+            const priceAfterInterest = parseInt(homePrice.value) * 1.7; // todo: fix this
             const mortgageLengthValue = parseInt(mortgageLength.value);
             const housemateSliderValue = parseInt(housemates.value);
             const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
