@@ -128,8 +128,8 @@
             <div class="message" id="moveOutMessage"></div>
         </div>
         <div class="tenant-info">
-            <p>I moved in during year <span id="tenantStartYear">X</span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
-            <p>I paid <span id="tenantPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears">Z</span> years.</p>
+            <p>I moved in during year <span id="tenantStartYear"></span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
+            <p>I paid <span id="tenantEquityPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears">Z</span> years.</p>
             <p>When I moved in, rent was <span id="tenantStartRent">A%</span> of market rate.</p>
             <p>When I moved out, rent was <span id="tenantEndRent">B%</span> of market rate!</p>
             <p>I saved <span id="tenantRentSavings">C%</span> on my rent compared to a market-rate tenant, roughly <span id="tenantIncomeSavings">D%</span> of my income.</p>
@@ -186,13 +186,12 @@
         const housematesValue = document.getElementById('housematesValue');
         const year = document.getElementById('year');
         const yearValue = document.getElementById('yearValue');
-        const yearOutput = document.getElementById('yearOutput');
         const firstMonthRentValue = document.getElementById('firstMonthRentValue');
         const moveInYear = document.getElementById('moveInYear');
         const moveOutYear = document.getElementById('moveOutYear');
         const tenantStartYear = document.getElementById('tenantStartYear');
         const tenantYears = document.getElementById('tenantYears');
-        const tenantPaid = document.getElementById('tenantPaid');
+        const tenantEquityPaid = document.getElementById('tenantEquityPaid');
         const tenantReceived = document.getElementById('tenantReceived');
         const tenantReceivedYears = document.getElementById('tenantReceivedYears');
         const tenantStartRent = document.getElementById('tenantStartRent');
@@ -200,6 +199,9 @@
         const tenantRentSavings = document.getElementById('tenantRentSavings');
         const tenantIncomeSavings = document.getElementById('tenantIncomeSavings');
         const inflation = 1.03;
+        let tenantEquityPaidValue = 0;
+
+
 
         // Calculate DELTindex based on conditions
         const DELTindex = {};
@@ -250,7 +252,11 @@
             tenantStartYear.textContent = tenantMoveInYearValue;
             tenantYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
             const rentSavings = ((parseInt(tenantStartRent.textContent) - parseInt(tenantEndRent.textContent)) / parseInt(tenantStartRent.textContent)) * 100;
-            tenantPaid.textContent = DELTindex[tenantMoveInYearValue] - DELTindex[tenantMoveOutYearValue];
+            tenantEquityPaidValue = 0;
+            for (i = tenantMoveInYearValue; i <= tenantMoveOutYearValue; i++) {
+                tenantEquityPaidValue += (DELTindex[i] / 2);
+            }
+            tenantEquityPaid.textContent = tenantEquityPaidValue;
             tenantReceived.textContent = MRindex[tenantMoveOutYearValue] - MRindex[tenantMoveInYearValue];
             tenantReceivedYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
             tenantRentSavings.textContent = rentSavings.toFixed(2) + "%";
