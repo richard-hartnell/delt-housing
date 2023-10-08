@@ -129,10 +129,9 @@
         </div>
         <div class="tenant-info">
             <p>I moved in during year <span id="tenantStartYear"></span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
-            <p>I paid <span id="tenantEquityPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears">Z</span> years.</p>
+            <p>I paid <span id="tenantEquityPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears"></span> years.</p>
             <p>When I moved in, rent was <span id="tenantStartRent">A%</span> of market rate.</p>
             <p>When I moved out, rent was <span id="tenantEndRent">B%</span> of market rate!</p>
-            <p>I saved <span id="tenantRentSavings">C%</span> on my rent compared to a market-rate tenant, roughly <span id="tenantIncomeSavings">D%</span> of my income.</p>
         </div>
     </div>
 
@@ -198,10 +197,9 @@
         const tenantEndRent = document.getElementById('tenantEndRent');
         const tenantRentSavings = document.getElementById('tenantRentSavings');
         const tenantIncomeSavings = document.getElementById('tenantIncomeSavings');
+        let currentDissolveLength = parseInt(dissolveLength.value);
         const inflation = 1.03;
         let tenantEquityPaidValue = 0;
-
-
 
         // Calculate DELTindex based on conditions
         const DELTindex = {};
@@ -230,9 +228,7 @@
             }
             document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
         };
-
        
-        // Function to update "First Month Rent"
         const updateFirstMonthRent = () => {
             const priceAfterInterest = parseInt(homePrice.value) * 1.7; // todo: fix this
             const mortgageLengthValue = parseInt(mortgageLength.value);
@@ -247,6 +243,11 @@
 
         // Function to simulate a tenant
         const simulateTenant = () => {
+            if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
+                document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
+            } else {
+                document.getElementById('moveOutMessage').textContent = ""; // Clear the message
+            }
             const tenantMoveInYearValue = parseInt(moveInYear.value);
             const tenantMoveOutYearValue = parseInt(moveOutYear.value);
             tenantStartYear.textContent = tenantMoveInYearValue;
@@ -257,36 +258,41 @@
                 tenantEquityPaidValue += (DELTindex[i] / 2);
             }
             tenantEquityPaid.textContent = tenantEquityPaidValue;
+            tenantStartRent.textContent = ((DELTindex[tenantMoveInYearValue] / MRindex[tenantMoveInYearValue]) * 100).toFixed(2) + "%";
+            tenantEndRent.textContent = ((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100).toFixed(2) + "%";
             tenantReceived.textContent = MRindex[tenantMoveOutYearValue] - MRindex[tenantMoveInYearValue];
-            tenantReceivedYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
+            tenantReceivedYears.textContent = (parseInt(mortgageLength.value) + parseInt(dissolveLength.value));
             tenantRentSavings.textContent = rentSavings.toFixed(2) + "%";
             tenantIncomeSavings.textContent = (rentSavings * 0.01 * parseInt(tenantStartRent.textContent)).toFixed(2) + "%";
         };
 
-        // Event listeners for sliders
         const slidersToUpdateFirstMonthRent = [homePrice, housemates, mortgageLength];
 
         slidersToUpdateFirstMonthRent.forEach(slider => {
-            slider.addEventListener('input', () => {
-                updateFirstMonthRent();
-            });
+            slider.addEventListener('input', updateFirstMonthRent);
         });
 
         DELTflationSlider.addEventListener('input', () => {
             const value = parseFloat(DELTflationSlider.value).toFixed(3);
             DELTflationValue.textContent = value;
             updateDELTindex();
+            simulateTenant();
+            drawPlot();
         });
 
         dissolveLength.addEventListener('input', () => {
             const value = parseInt(dissolveLength.value);
             dissolveLengthValue.textContent = value;
             updateDELTindex();
+            simulateTenant();
+            drawPlot();
         });
 
         mortgageLength.addEventListener('input', () => {
             const value = parseInt(mortgageLength.value);
             mortgageLengthValue.textContent = value + ' years';
+            updateDELTindex();
+            simulateTenant();
             updateFirstMonthRent();
             updateMortageLengthGraphLine(value);
         });
@@ -312,24 +318,8 @@
         });
 
         // Event listeners for moveInYear and moveOutYear inputs
-        moveInYear.addEventListener('input', () => {
-            if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
-            document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
-        } else {
-            document.getElementById('moveOutMessage').textContent = ""; // Clear the message
-            simulateTenant(); // Update tenant info when moveInYear changes
-        }
-        });
-
-        moveOutYear.addEventListener('input', () => {
-    // Check if Move Out Year is less than Move In Year
-        if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
-            document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
-        } else {
-            document.getElementById('moveOutMessage').textContent = ""; // Clear the message
-            simulateTenant(); // Update tenant info when moveOutYear changes
-        }
-        });
+        moveInYear.addEventListener('input', simulateTenant);
+        moveOutYear.addEventListener('input', simulateTenant);
 
         // Initial calculation and display of DELTindex and firstMonthRentValue
         updateFirstMonthRent();
@@ -337,88 +327,116 @@
         updateMRindex();
         simulateTenant(); // Initialize tenant info
 
-        // Function to draw the plot
-        function drawPlot() {
-    const canvas = document.getElementById('plotCanvas');
-    const ctx = canvas.getContext('2d');
 
-    // Set up the range and scaling factors
-    const minX = 1;
-    const maxX = 100;
-    const minY = 2 * minX + 5;
-    const maxY = 2 * maxX;
+    // Function to draw the plot
+    function drawPlot() {
+        const canvas = document.getElementById('plotCanvas');
+        const ctx = canvas.getContext('2d');
 
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Set up the range and scaling factors
+        const minX = 1;
+        const maxX = 100;
+        const firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent); // Get the firstMonthRent value
+        const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
+        const maxY = 5000; // Change this to the maximum value of your data
 
-    // Draw the X and Y axes
-    ctx.beginPath();
-    ctx.moveTo(60, canvas.height - 60);
-    ctx.lineTo(canvas.width - 30, canvas.height - 60);
-    ctx.moveTo(60, canvas.height - 60);
-    ctx.lineTo(60, 30);
-    ctx.strokeStyle = 'black'; // Axis color
-    ctx.lineWidth = 2; // Axis line width
-    ctx.stroke();
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the vertical line at mortgageLengthValue
-    const mortgageLengthValue = parseInt(document.getElementById('mortgageLength').value);
-    const plotX = (mortgageLengthValue - minX) / (maxX - minX) * (canvas.width - 90) + 60;
-    ctx.beginPath();
-    ctx.moveTo(plotX, canvas.height - 60);
-    ctx.lineTo(plotX, 30);
-    ctx.strokeStyle = 'black'; // Line color
-    ctx.lineWidth = 1; // Line width
-    ctx.stroke();
+        // Draw the X and Y axes
+        ctx.beginPath();
+        ctx.moveTo(60, canvas.height - 60);
+        ctx.lineTo(canvas.width - 30, canvas.height - 60);
+        ctx.moveTo(60, canvas.height - 60);
+        ctx.lineTo(60, 30);
+        ctx.strokeStyle = 'black'; // Axis color
+        ctx.lineWidth = 2; // Axis line width
+        ctx.stroke();
 
-    // Label the X and Y axes
-    ctx.font = '16px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.fillText('X = Time (years)', canvas.width / 2, canvas.height - 40);
+        // Draw the vertical line at mortgageLengthValue
+        const mortgageLengthValue = parseInt(document.getElementById('mortgageLength').value);
+        const plotX = (mortgageLengthValue - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+        ctx.beginPath();
+        ctx.moveTo(plotX, canvas.height - 60);
+        ctx.lineTo(plotX, 30);
+        ctx.strokeStyle = 'black'; // Line color
+        ctx.lineWidth = 1; // Line width
+        ctx.stroke();
 
-    // Static Y-axis label
-    ctx.save(); // Save the current context state
-    ctx.translate(20, canvas.height / 2); // Translate to the Y axis label position
-    ctx.rotate(-Math.PI / 2); // Rotate for Y axis label
-    ctx.font = '16px Arial';
-    ctx.fillText('Y = Rent ($)', 0, 0);
-    ctx.restore(); // Restore the context state
+        // And the vert at mortgageLengthValue + dissolveLengthValue
+        const dissolveLine = (mortgageLengthValue + dissolveLengthValue);
+        ctx.beginPath();
+        ctx.moveTo(dissolveLine, 30);
+        ctx.lineTo(dissolveLine, canvas.height - 30);
+        ctx.strokeStyle = 'purple'; // Line color
+        ctx.lineWidth = 2; // Line width
+        ctx.stroke();
 
-    // Draw labels on the Y axis
-    const firstMonthRentValue = parseInt(document.getElementById('firstMonthRentValue').textContent);
-    const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
-    ctx.font = '12px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'right';
-    ctx.fillText('$' + firstMonthRentValue, 55, canvas.height - 65);
-    ctx.fillText('$' + MRindex100, 55, 45);
+        // Label the X and Y axes
+        ctx.font = '16px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.fillText('X = Time (years)', canvas.width / 2, canvas.height - 40);
 
-    // Draw labels on the X axis without overlapping the axis title
-    ctx.font = '12px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    for (let x = 5; x <= 100; x += 5) {
-        const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
-        ctx.fillText(x, plotX, canvas.height - 10);
-    }
+        // Static Y-axis label
+        ctx.save(); // Save the current context state
+        ctx.translate(20, canvas.height / 2); // Translate to the Y axis label position
+        ctx.rotate(-Math.PI / 2); // Rotate for Y axis label
+        ctx.font = '16px Arial';
+        ctx.fillText('Y = Rent ($)', 0, 0);
+        ctx.restore(); // Restore the context state
 
-    // Draw the plot
-    ctx.beginPath();
-    for (let x = minX; x <= maxX; x++) {
-        const y = 2 * x + 5;
-        const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
-        const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
-        if (x === minX) {
-            ctx.moveTo(plotX, plotY);
-        } else {
-            ctx.lineTo(plotX, plotY);
+        // Draw labels on the Y axis
+        const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'right';
+        ctx.fillText('$' + firstMonthRent, 55, canvas.height - 65);
+        ctx.fillText('$' + MRindex100, 55, 45);
+
+        // Draw labels on the X axis without overlapping the axis title
+        ctx.font = '12px Arial';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        for (let x = 5; x <= 100; x += 5) {
+            const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+            ctx.fillText(x, plotX, canvas.height - 10);
         }
+
+        // Draw the MRindex plot
+        ctx.beginPath();
+        for (let x = minX; x <= maxX; x++) {
+            const y = MRindex[x]; // Remove the scaling factor
+            const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+            const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
+            if (x === minX) {
+                ctx.moveTo(plotX, plotY);
+            } else {
+                ctx.lineTo(plotX, plotY);
+            }
+        }
+        ctx.strokeStyle = 'blue'; // MRindex plot color
+        ctx.lineWidth = 2; // Plot line width
+        ctx.stroke();
+
+        // Draw the DELTindex plot
+        ctx.beginPath();
+        // const DELTindex = {}; // Replace this with your DELTindex data
+        for (let x = minX; x <= maxX; x++) {
+            // Replace the following line with the correct way to access DELTindex values
+            const y = DELTindex[x]; // Remove the scaling factor
+            const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+            const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
+            if (x === minX) {
+                ctx.moveTo(plotX, plotY);
+            } else {
+                ctx.lineTo(plotX, plotY);
+            }
+        }
+        ctx.strokeStyle = 'red'; // DELTindex plot color
+        ctx.lineWidth = 2; // Plot line width
+        ctx.stroke();
     }
-    ctx.strokeStyle = 'blue'; // Plot color
-    ctx.lineWidth = 2; // Plot line width
-    ctx.stroke();
-}
 
     function updateYAxisLabels(firstMonthRentValue, MRindex100) {
         const canvas = document.getElementById('plotCanvas');
@@ -434,36 +452,76 @@
         ctx.textAlign = 'right';
         ctx.fillText('$' + firstMonthRentValue, 55, canvas.height - 60);
         ctx.fillText('$' + MRindex100, 55, 30);
-        drawPlot();
-        
+        drawPlot();        
     }
 
+    // function calculateMortgageDissolveLine() {
+    //     const canvas = document.getElementById('plotCanvas');
+    //     const ctx = canvas.getContext('2d');
+        
+    //     const minX = 1;
+    //     const maxX = 100;
+    //     const minY = parseInt(firstMonthRentValue.textContent);
+    //     const maxY = 5000;
+    //     const mortgageLengthValue = parseInt(mortgageLength.value);
+
+    //     // Calculate points for the line
+    //     const points = [];
+    //     for (let x = minX; x <= maxX; x++) {
+    //         let y = mortgageLengthValue + currentDissolveLength;
+    //         if (x > mortgageLengthValue) {
+    //             y = mortgageLengthValue + currentDissolveLength - (x - mortgageLengthValue);
+    //         }
+    //         const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+    //         const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
+    //         points.push({ x: plotX, y: plotY });
+    //     }
+    //     return points;
+    // }
+
+    // function drawMortgageDissolveLine() {
+    //     const canvas = document.getElementById('plotCanvas');
+    //     const ctx = canvas.getContext('2d');
+
+    //     const points = calculateMortgageDissolveLine();
+
+    //     // Draw the line
+    //     ctx.beginPath();
+    //     ctx.moveTo(points[0].x, points[0].y);
+    //     for (let i = 1; i < points.length; i++) {
+    //         ctx.lineTo(points[i].x, points[i].y);
+    //     }
+    //     ctx.strokeStyle = 'purple'; // Line color
+    //     ctx.lineWidth = 2; // Line width
+    //     ctx.stroke();
+    // }
+
     function updateMortageLengthGraphLine(mortgageLengthValue) {
-    const canvas = document.getElementById('plotCanvas');
-    const ctx = canvas.getContext('2d');
+        const canvas = document.getElementById('plotCanvas');
+        const ctx = canvas.getContext('2d');
 
-    // Clear the canvas area for the vertical line
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Clear the canvas area for the vertical line
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the vertical dotted line
-    const minX = 1;
-    const maxX = 100;
+        // Draw the vertical dotted line
+        const minX = 1;
+        const maxX = 100;
 
-    const plotX = (mortgageLengthValue - minX) / (maxX - minX) * (canvas.width - 60) + 30;
+        const plotX = (mortgageLengthValue - minX) / (maxX - minX) * (canvas.width - 60) + 30;
 
-    ctx.beginPath();
-    ctx.moveTo(plotX, 30);
-    ctx.lineTo(plotX, canvas.height - 30);
-    ctx.lineWidth = 1;
-    // ctx.setLineDash([4, 4]); // Dotted line
+        ctx.beginPath();
+        ctx.moveTo(plotX, 30);
+        ctx.lineTo(plotX, canvas.height - 30);
+        ctx.lineWidth = 1;
+        // ctx.setLineDash([4, 4]); // Dotted line
 
-    // Redraw the graph
-    drawPlot();
-}
-
-        // Call the drawPlot function initially
-        updateFirstMonthRent();
+        // Redraw the graph
         drawPlot();
+    }
+
+    // on page load
+    updateFirstMonthRent();
+    drawPlot();
     </script>
 </body>
 </html>
