@@ -139,32 +139,10 @@
 
     <div class="results-container">
         <div class="result-column">
-            <label class="result-label">Result 1:</label>
-            <div id="result1" class="output">-</div>
-            <label class="result-label">Result 2:</label>
-            <div id="result2" class="output">-</div>
-            <label class="result-label">Result 3:</label>
-            <div id="result3" class="output">-</div>
-            <label class="result-label">Result 4:</label>
-            <div id="result4" class="output">-</div>
-            <label class="result-label">Result 5:</label>
-            <div id="result5" class="output">-</div>
-            <!-- Display DELTindex below Result 5 in the left column -->
             <label class="result-label">DELTindex:</label>
             <div id="DELTindex" class="output">-</div>
         </div>
         <div class="result-column">
-            <label class="result-label">Result 1:</label>
-            <div id="result6" class="output">-</div>
-            <label class="result-label">Result 2:</label>
-            <div id="result7" class="output">-</div>
-            <label class="result-label">Result 3:</label>
-            <div id="result8" class="output">-</div>
-            <label class="result-label">Result 4:</label>
-            <div id="result9" class="output">-</div>
-            <label class="result-label">Result 5:</label>
-            <div id="result10" class="output">-</div>
-            <!-- Display MRindex below Result 5 in the right column -->
             <label class="result-label">MRindex:</label>
             <div id="MRindex" class="output">-</div>
         </div>
@@ -195,8 +173,6 @@
         const tenantReceivedYears = document.getElementById('tenantReceivedYears');
         const tenantStartRent = document.getElementById('tenantStartRent');
         const tenantEndRent = document.getElementById('tenantEndRent');
-        const tenantRentSavings = document.getElementById('tenantRentSavings');
-        const tenantIncomeSavings = document.getElementById('tenantIncomeSavings');
         let currentDissolveLength = parseInt(dissolveLength.value);
         const inflation = 1.03;
         let tenantEquityPaidValue = 0;
@@ -262,8 +238,6 @@
             tenantEndRent.textContent = ((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100).toFixed(2) + "%";
             tenantReceived.textContent = MRindex[tenantMoveOutYearValue] - MRindex[tenantMoveInYearValue];
             tenantReceivedYears.textContent = (parseInt(mortgageLength.value) + parseInt(dissolveLength.value));
-            tenantRentSavings.textContent = rentSavings.toFixed(2) + "%";
-            tenantIncomeSavings.textContent = (rentSavings * 0.01 * parseInt(tenantStartRent.textContent)).toFixed(2) + "%";
         };
 
         const slidersToUpdateFirstMonthRent = [homePrice, housemates, mortgageLength];
@@ -338,7 +312,7 @@
         const maxX = 100;
         const firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent); // Get the firstMonthRent value
         const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
-        const maxY = 5000; // Change this to the maximum value of your data
+        const maxY = 40000; // Change this to the maximum value of your data
 
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -520,7 +494,6 @@
     }
 
     // on page load
-    updateFirstMonthRent();
     drawPlot();
     </script>
 </body>
