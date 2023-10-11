@@ -310,7 +310,8 @@
         // Set up the range and scaling factors
         const minX = 1;
         const maxX = 100;
-        const firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent); // Get the firstMonthRent value
+        firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent);
+        updateMRindex;
         const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
         const maxY = 40000; // Change this to the maximum value of your data
 
