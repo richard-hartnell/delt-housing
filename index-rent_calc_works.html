@@ -59,7 +59,7 @@
         }
 
         .DELT {
-            display: none;
+            /* display: none; */
         }
 
         @media only screen and (orientation: portrait) and (max-width: 820px) {
@@ -81,7 +81,7 @@
         <p>For more in-depth info, scroll to the bottom of the page.</p>
     <div class="DELT slider-container">
         <label class="slider-label">DELTflation:</label>
-        <input type="range" id="DELTflation" min="1.03" max="1.07" step="0.002" value="1.05" class="slider">
+        <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.05" class="slider">
         <span id="DELTflationValue">1.05</span>
     </div>
 
@@ -188,6 +188,7 @@
         const tenantReceivedYears = document.getElementById('tenantReceivedYears');
         const tenantStartRent = document.getElementById('tenantStartRent');
         const tenantEndRent = document.getElementById('tenantEndRent');
+        const inflation = 1.03;
         const homeDebt = 0;
         let currentDissolveLength = parseInt(dissolveLength.value);
         let tenantEquityPaidValue = 0;
@@ -222,7 +223,6 @@
 
         const INFindex = {};
         const updateINFindex = () => {
-            const inflation = 1.03;
             for (let i = 1; i <= 100; i++) {
                 INFindex[i] = Math.round(firstMonthRentValue.textContent * (Math.pow(inflation, i)));
             }
@@ -237,6 +237,9 @@
             firstMonthRentValue.textContent = firstMonthRent;
             updateDELTindex();
             updateMRindex();
+            updateINFindex();
+            simulateTenant();
+            drawPlot();
             // const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
             updateYAxisLabels(firstMonthRent, MRindex[100]);
         };
@@ -264,11 +267,11 @@
             tenantReceivedYears.textContent = (parseInt(mortgageLength.value) + parseInt(dissolveLength.value));
         };
 
-        const slidersToUpdateFirstMonthRent = [homePrice, housemates, mortgageLength];
+        // const slidersToUpdateFirstMonthRent = [homePrice, housemates, mortgageLength, dissolveLength, DELTflation];
 
-        slidersToUpdateFirstMonthRent.forEach(slider => {
-            slider.addEventListener('input', updateFirstMonthRent);
-        });
+        // slidersToUpdateFirstMonthRent.forEach(slider => {
+        //     slider.addEventListener('input', updateFirstMonthRent);
+        // });
 
         DELTflationSlider.addEventListener('input', () => {
             const value = parseFloat(DELTflationSlider.value).toFixed(3);
@@ -289,9 +292,8 @@
         mortgageLength.addEventListener('input', () => {
             const value = parseInt(mortgageLength.value);
             mortgageLengthValue.textContent = value + ' years';
-            updateDELTindex();
-            simulateTenant();
             updateFirstMonthRent();
+            simulateTenant();
             updateMortageLengthGraphLine(value);
         });
 
@@ -299,6 +301,8 @@
             const value = parseInt(homePrice.value);
             homePriceValue.textContent = '$' + value;
             updateFirstMonthRent();
+            simulateTenant();
+            drawPlot();
         });
 
         housemates.addEventListener('input', () => {
@@ -312,7 +316,6 @@
             yearValue.textContent = value;
             updateDELTindex();
             updateMRindex();
-            simulateTenant(); // Update tenant info when the year changes
         });
 
         // Event listeners for moveInYear and moveOutYear inputs
