@@ -58,6 +58,10 @@
             text-align: center;
         }
 
+        .DELT {
+            display: none;
+        }
+
         @media only screen and (orientation: portrait) and (max-width: 820px) {
             .tenant-section {
                 display:block;
@@ -67,13 +71,21 @@
     </style>
 </head>
 <body>
-    <div class="slider-container">
+    <h1 id="title">THE DISSOLVING EQUITY LAND TRUST</h1>
+    <h2 id="byline">"Flattening the curve" of equity payments<br>
+        so that tenants can pay fair costs<br>
+        instead of unfair market rates.</h2>
+    <p id="intro">The dissolving-equity land trust (DELT) is a <A href="https://en.wikipedia.org/wiki/Housing_cooperative">cooperative housing</a> model that creates more affordable rental housing.</p>
+        <p>Instead of landlords pocketing all the mortgage payments, tenants get paid back for their payments toward the equity.</p>
+        <p>Play with the tools below to see how it could help tenants you know.</p>
+        <p>For more in-depth info, scroll to the bottom of the page.</p>
+    <div class="DELT slider-container">
         <label class="slider-label">DELTflation:</label>
         <input type="range" id="DELTflation" min="1.03" max="1.07" step="0.002" value="1.05" class="slider">
         <span id="DELTflationValue">1.05</span>
     </div>
 
-    <div class="slider-container">
+    <div class="DELT slider-container">
         <label class="slider-label">Dissolve Length:</label>
         <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
         <span id="dissolveLengthValue">20</span>
@@ -97,7 +109,7 @@
         <span id="housematesValue">5</span>
     </div>
 
-    <div class="slider-container">
+    <div class="DELT slider-container">
         <label class="slider-label">Year:</label>
         <input type="range" id="year" min="1" max="100" value="1" class="slider">
         <span id="yearValue">50</span>
@@ -115,6 +127,8 @@
 
     <div class="tenant-section">
         <div id="move-in-out">
+            Pretend you're a tenant!<br>
+            "Year one" is when the home gets purchased<br>(e.g. 0% of the mortgage has been paid off).
             <div class="move-in-out-flex">
                 <div class="tenant-slider">
                     <label class="slider-label">Move In Year:</label><br>
@@ -122,13 +136,14 @@
                 </div>
                 <div class="tenant-slider">
                     <label class="slider-label">Move Out Year:</label>
-                    <input type="number" id="moveOutYear" min="1" max="100" value="1" class="slider" step="1">
+                    <input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
                 </div>
             </div>
             <div class="message" id="moveOutMessage"></div>
         </div>
         <div class="tenant-info">
             <p>I moved in during year <span id="tenantStartYear"></span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
+            <p>I paid <span id="tenantEquityPaid">P</span> in rent, but received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears"></span> years.</p>
             <p>I paid <span id="tenantEquityPaid">P</span> into the equity of the trust and received <span id="tenantReceived">Q</span> back over <span id="tenantReceivedYears"></span> years.</p>
             <p>When I moved in, rent was <span id="tenantStartRent">A%</span> of market rate.</p>
             <p>When I moved out, rent was <span id="tenantEndRent">B%</span> of market rate!</p>
@@ -173,8 +188,8 @@
         const tenantReceivedYears = document.getElementById('tenantReceivedYears');
         const tenantStartRent = document.getElementById('tenantStartRent');
         const tenantEndRent = document.getElementById('tenantEndRent');
+        const homeDebt = 0;
         let currentDissolveLength = parseInt(dissolveLength.value);
-        const inflation = 1.03;
         let tenantEquityPaidValue = 0;
 
         // Calculate DELTindex based on conditions
@@ -203,6 +218,15 @@
                 MRindex[i] = Math.round(firstMonthRentValue.textContent * (Math.pow(MRflation, i)));
             }
             document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
+        };
+
+        const INFindex = {};
+        const updateINFindex = () => {
+            const inflation = 1.03;
+            for (let i = 1; i <= 100; i++) {
+                INFindex[i] = Math.round(firstMonthRentValue.textContent * (Math.pow(inflation, i)));
+            }
+            // document.getElementById('MRindex').textContent = MRindex[parseInt(yearValue.textContent)];
         };
        
         const updateFirstMonthRent = () => {
@@ -309,7 +333,7 @@
 
         // Set up the range and scaling factors
         const minX = 1;
-        const maxX = 100;
+        const maxX = 75;
         firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent);
         updateMRindex;
         const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
@@ -394,6 +418,21 @@
         ctx.lineWidth = 2; // Plot line width
         ctx.stroke();
 
+        ctx.beginPath();
+        for (let x = minX; x <= maxX; x++) {
+            const y = INFindex[x]; // Remove the scaling factor
+            const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
+            const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
+            if (x === minX) {
+                ctx.moveTo(plotX, plotY);
+            } else {
+                ctx.lineTo(plotX, plotY);
+            }
+        }
+        ctx.strokeStyle = 'blue'; // MRindex plot color
+        ctx.lineWidth = 2; // Plot line width
+        ctx.stroke();
+
         // Draw the DELTindex plot
         ctx.beginPath();
         // const DELTindex = {}; // Replace this with your DELTindex data
@@ -421,7 +460,6 @@
         ctx.clearRect(0, 0, 60, canvas.height);
 
         // Draw labels on the Y axis
-        
         ctx.font = '12px Arial';
         ctx.fillStyle = 'black';
         ctx.textAlign = 'right';
