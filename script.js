@@ -103,7 +103,7 @@ const updateDebtIndexDELT = () => {
 const updateDebtIndexMR = () => {
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
-    debtIndexMR[0] = parseInt(homePriceValue.textContent);
+    debtIndexMR[0] = parseInt(homePrice.value);
     for (let i = 1; i <= 80; i++) {
         debtIndexMR[i] = debtIndexMR[i-1] - (MRindex[i] / 2);
         if (debtIndexDELT[i] < 0) {
@@ -370,7 +370,7 @@ function secondPlot() {
   const debt_ctx = canvas_two.getContext('2d');
   // Set up the range and scaling factors
   const minX = 1;
-  const maxX = 75;
+  const maxX = 100;
   const minY = 0; // Start the Y-axis from firstMonthRent
   const maxY = 40000; // Change this to the maximum value of your data
 
@@ -395,16 +395,16 @@ function secondPlot() {
     debt_ctx.translate(20, canvas_two.height / 2); // Translate to the Y axis label position
     debt_ctx.rotate(-Math.PI / 2); // Rotate for Y axis label
     debt_ctx.font = '16px Arial';
-    debt_ctx.fillText('Y = Rent ($)', 0, 0);
+    debt_ctx.fillText('Y = Debt ($)', 0, 0);
     debt_ctx.restore(); // Restore the context state
 
     // Draw labels on the Y axis
-    const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
+    const maxDebt = debtIndexDELT[0];
     debt_ctx.font = '12px Arial';
     debt_ctx.fillStyle = 'black';
     debt_ctx.textAlign = 'right';
-    debt_ctx.fillText('$' + firstMonthRent, 55, canvas_two.height - 65);
-    debt_ctx.fillText('$' + MRindex100, 55, 45);
+    debt_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
+    debt_ctx.fillText('$' + maxDebt, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
     debt_ctx.font = '12px Arial';
@@ -415,10 +415,10 @@ function secondPlot() {
         debt_ctx.fillText(x, plotX, canvas_two.height - 10);
     }
 
-    // Draw the MRindex plot
+    // Draw the DELT debt plot
     debt_ctx.beginPath();
     for (let x = minX; x <= maxX; x++) {
-        const y = MRindex[x]; // Remove the scaling factor
+        const y = debtIndexDELT[x] / 20; // Remove the scaling factor
         const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
         const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
         if (x === minX) {
@@ -430,6 +430,23 @@ function secondPlot() {
     debt_ctx.strokeStyle = 'red'; // MRindex plot color
     debt_ctx.lineWidth = 2; // Plot line width
     debt_ctx.stroke();
+
+        // Draw the MR debt plot
+        debt_ctx.beginPath();
+        for (let x = minX; x <= maxX; x++) {
+            const y = debtIndexMR[x] / 20; // Remove the scaling factor
+            const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
+            const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
+            if (x === minX) {
+                debt_ctx.moveTo(plotX, plotY);
+            } else {
+                debt_ctx.lineTo(plotX, plotY);
+            }
+        }
+        debt_ctx.strokeStyle = 'green'; // MRindex plot color
+        debt_ctx.lineWidth = 2; // Plot line width
+        debt_ctx.stroke();
+    
 }
 
 // on page load
