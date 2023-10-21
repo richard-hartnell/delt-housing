@@ -4,187 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DELT Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-
-        .slider-container {
-            margin: 20px;
-        }
-
-        .slider-label {
-            font-size: 18px;
-        }
-
-        .output {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 10px;
-        }
-
-        .radio-container {
-            margin: 20px;
-        }
-
-        .radio-label {
-            font-size: 18px;
-        }
-
-        .results-container {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .result-column {
-            flex: 1;
-            margin: 20px;
-        }
-
-        .result-label {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .first-month-rent {
-            font-size: 18px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    <div class="slider-container">
-        <label class="slider-label">Dissolve Length (Years: <span id="dissolveLengthValue">20</span>):</label>
-        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
-    </div>
 
-    <div class="slider-container">
-        <label class="slider-label">Mortgage Length (Years: <span id="mortgageLengthValue">20</span>):</label>
-        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
-    </div>
+<h1 id="title">THE DISSOLVING EQUITY LAND TRUST</h1>
+<h2 id="byline">"Flattening the curve" of equity payments<br>
+    so that tenants can pay fair costs<br>
+    instead of unfair market rates.</h2>
+<p id="intro">The dissolving-equity land trust (DELT) is a <A href="https://en.wikipedia.org/wiki/Housing_cooperative">cooperative housing</a> model that creates more affordable rental housing.</p>
+    <p>Instead of landlords pocketing all the mortgage payments, tenants get reimbursed for paying off the equity.</p>
+    <!-- <p>Play with the tools below to see how it could help tenants you know.</p>
+    <p>For more in-depth info, scroll to the bottom of the page.</p> -->
+<div class="DELT slider-container">
+    <label class="slider-label">DELTflation:</label>
+    <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.05" class="slider">
+    <span id="DELTflationValue">1.05</span>
+</div>
 
-    <div class="slider-container">
-        <label class="slider-label">Home Price (Value: $<span id="slider1Value">400,000</span>):</label>
-        <input type="range" id="slider1" min="100000" max="4000000" value="400000" class="slider">
-        <output id="output1" class="output">$400,000</output>
-    </div>
+<div class="DELT slider-container">
+    <label class="slider-label">Dissolve Length:</label>
+    <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+    <span id="dissolveLengthValue">20</span>
+</div>
 
-    <div class="slider-container">
-        <label class="slider-label"># of Residents (Value: <span id="slider2Value">5</span>):</label>
-        <input type="range" id="slider2" min="1" max="20" value="5" class="slider">
-        <output id="output2" class="output">5</output>
-    </div>
+<div class="slider-container">
+    <label class="slider-label">Mortgage Length:</label>
+    <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+    <span id="mortgageLengthValue">20 years</span>
+</div>
 
-    <div class="slider-container">
-        <label class="slider-label">Year (Value: <span id="yearValue">50</span>):</label>
-        <input type="range" id="year" min="0" max="100" value="50" class="slider">
-        <output id="yearOutput" class="output">50</output>
-    </div>
+<div class="slider-container">
+    <label class="slider-label">Home Price:</label>
+    <input type="range" id="homePrice" min="100000" max="2000000" value="400000" class="slider">
+    <span id="homePriceValue">$400,000</span>
+</div>
 
-    <div class="first-month-rent">
-        First Month Rent: $<span id="firstMonthRentValue">0</span>
-    </div>
+<div class="slider-container">
+    <label class="slider-label"># of Residents:</label>
+    <input type="range" id="housemates" min="1" max="20" value="5" class="slider">
+    <span id="housematesValue">5</span>
+</div>
 
-    <div class="radio-container">
-        <label class="radio-label">Select Resident Type:</label><br>
-        <input type="radio" id="earliest" name="resident" value="earliest">
-        <label for="earliest">Earliest residents</label><br>
-        <input type="radio" id="early" name="resident" value="early">
-        <label for="early">Early residents</label><br>
-        <input type="radio" id="midterm" name="resident" value="midterm">
-        <label for="midterm">Mid-term residents</label><br>
-        <input type="radio" id="late" name="resident" value="late">
-        <label for="late">Late residents</label><br>
-        <input type="radio" id="latest" name="resident" value="latest">
-        <label for="latest">Latest residents</label><br>
-    </div>
+<div class="DELT slider-container">
+    <label class="slider-label">Year:</label>
+    <input type="range" id="year" min="1" max="100" value="1" class="slider">
+    <span id="yearValue">50</span>
+</div>
 
-    <div class="results-container">
-        <div class="result-column">
-            <label class="result-label">Result 1:</label>
-            <div id="result1" class="output">-</div>
-            <label class="result-label">Result 2:</label>
-            <div id="result2" class="output">-</div>
-            <label class="result-label">Result 3:</label>
-            <div id="result3" class="output">-</div>
-            <label class="result-label">Result 4:</label>
-            <div id="result4" class="output">-</div>
-            <label class="result-label">Result 5:</label>
-            <div id="result5" class="output">-</div>
+<div class="tenant-section">
+    <div id="move-in-out">
+        <h3>Pretend you're a tenant!</h3>
+        <p>Change the sliders and the numbers below<br>and see how your results might change.</p>
+        "Year one" is when the home gets purchased<br>(i.e. 0% of the mortgage has been paid off).
+        <div class="move-in-out-flex">
+            <div class="tenant-slider">
+                <label class="slider-label">Move In Year:</label><br>
+                <input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
+            </div>
+            <div class="tenant-slider">
+                <label class="slider-label">Move Out Year:</label>
+                <input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
+            </div>
         </div>
-        <div class="result-column">
-            <label class="result-label">Result 1:</label>
-            <div id="result6" class="output">-</div>
-            <label class="result-label">Result 2:</label>
-            <div id="result7" class="output">-</div>
-            <label class="result-label">Result 3:</label>
-            <div id="result8" class="output">-</div>
-            <label class="result-label">Result 4:</label>
-            <div id="result9" class="output">-</div>
-            <label class="result-label">Result 5:</label>
-            <div id="result10" class="output">-</div>
-        </div>
+        <div class="message" id="moveOutMessage"></div>
+    </div>
+    <div class="tenant-info">
+        <p>I moved in during year <span id="tenantStartYear"></span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
+        <p>I paid $<span id="tenantRentPaid">P</span> in rent over that time. At market-rate, I'd have paid $<span id="tenantRentPaidMR">Q</span>.</p>
+        <p>However, I was reimbursed $<span id="tenantEquityRepaid">Q</span> of equity payments over time, making my effective rent $<span id="tenantRentAdjusted">R</span>.</p>
+        <p>(that's $<span id="tenantRentAdjustedDeflated"></span> in today's dollars, compared to $<span id="tenantRentMRAdjustedDeflated"></span> at market rate.)</p>
+        <p>That's a <span id="adjustedVersusMR">P</span>% savings over a private landlord charging market rate.</p>
+        <p>When I moved in, rent was <span id="tenantStartRent">A</span>% of market rate.</p>
+        <p>When I moved out, rent was <span id="tenantEndRent">B</span>% of market rate!</p>
+    </div>
+</div>
+
+<hr>
+
+<section id="canvases">
+<canvas id="rentCanvas" width="500" height="500"></canvas>
+<canvas id="debtCanvas" width="500" height="500"></canvas>
+</section>
+    <div id="legend" style="font-style: italic">
+        <p id="legend-red">Red line: market-rate rents as they currently escalate</p>
+        <p id="legend-green">Green line: DELT rent as it increases with inflation</p>
+        <p id="legend-blue">Blue line: base cost of homeownership (i.e. utilities/insurance/taxes/repairs/etc)</p>
     </div>
 
-    <script>
-        const dissolveLength = document.getElementById('dissolveLength');
-        const dissolveLengthValue = document.getElementById('dissolveLengthValue');
-        const mortgageLength = document.getElementById('mortgageLength');
-        const mortgageLengthValue = document.getElementById('mortgageLengthValue');
-        const slider1 = document.getElementById('slider1');
-        const output1 = document.getElementById('output1');
-        const slider1Value = document.getElementById('slider1Value');
-        const slider2 = document.getElementById('slider2');
-        const output2 = document.getElementById('output2');
-        const slider2Value = document.getElementById('slider2Value');
-        const firstMonthRentValue = document.getElementById('firstMonthRentValue');
-        const year = document.getElementById('year');
-        const yearOutput = document.getElementById('yearOutput');
+<!-- this doesn't display, but contains required vars. plz leave -->
+<div class="first-month-rent" style="display: none">
+    First Month Rent: $<span id="firstMonthRentValue">0</span>
+</div>
 
+<div class="results-container" style="display: none">
+    <div class="result-column">
+        <label class="result-label">DELTindex:</label>
+        <div id="DELTindex" class="output">-</div>
+    </div>
+    <div class="result-column">
+        <label class="result-label">MRindex:</label>
+        <div id="MRindex" class="output">-</div>
+    </div>
+</div>
 
-
-        dissolveLength.addEventListener('input', () => {
-            const value = parseInt(dissolveLength.value);
-            dissolveLengthValue.textContent = value;
-            updateFirstMonthRent();
-        });
-
-        mortgageLength.addEventListener('input', () => {
-            const value = parseInt(mortgageLength.value);
-            mortgageLengthValue.textContent = value;
-            updateFirstMonthRent();
-        });
-
-        slider1.addEventListener('input', () => {
-            const value1 = parseInt(slider1.value);
-            output1.textContent = `$${value1.toLocaleString()}`;
-            slider1Value.textContent = `$${value1.toLocaleString()}`;
-            updateFirstMonthRent();
-        });
-
-        slider2.addEventListener('input', () => {
-            const value2 = parseInt(slider2.value);
-            output2.textContent = value2;
-            slider2Value.textContent = value2;
-            updateFirstMonthRent();
-        });
-
-        year.addEventListener('input', () => {
-            const yearValue = parseInt(year.value);
-            yearOutput.textContent = yearValue;
-            updateFirstMonthRent();
-        });
-
-        function updateFirstMonthRent() {
-            const priceAfterInterest = parseInt(slider1.value) * 1.7;
-            const mortgageLengthValue = parseInt(mortgageLength.value);
-            const housemateSliderValue = parseInt(slider2.value);
-            const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
-            firstMonthRentValue.textContent = firstMonthRent;
-        }
-
-    </script>
 </body>
+
+<script src="script.js"></script>
 </html>

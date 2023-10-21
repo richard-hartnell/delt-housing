@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.slider-container {
+    margin: 20px;
+}
+
+.slider-label {
+    font-size: 18px;
+}
+
+.output {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.radio-container {
+    margin: 20px;
+}
+
+.radio-label {
+    font-size: 18px;
+}
+
+.results-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tenant-section {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.move-in-out-flex {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.tenant-slider {
+    flex: 1;
+}
+
+.tenant-info {
+    flex: 1;
+    text-align: center;
+}
+
+.tenant-info span {
+    font-weight: bold;
+}
+
+.DELT {
+    display: none;
+}
+
+@media only screen and (orientation: portrait) and (max-width: 820px) {
+    .tenant-section {
+        display:block;
+    }
+}
