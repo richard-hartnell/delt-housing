@@ -77,6 +77,9 @@ const simulateTenant = () => {
     tenantEndRent.textContent = Math.round((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100);
 };
 
+// debt index problem:
+// as housemates increase, debt takes longer to pay off?!
+
 const updateDebtIndexDELT = () => {
     debtIndexDELT[0] = parseInt(homePrice.value);
     const ML = parseInt(mortgageLengthValue.textContent);
@@ -106,8 +109,8 @@ const updateDebtIndexMR = () => {
     debtIndexMR[0] = parseInt(homePrice.value);
     for (let i = 1; i <= 80; i++) {
         debtIndexMR[i] = debtIndexMR[i-1] - (MRindex[i] / 2);
-        if (debtIndexDELT[i] < 0) {
-            debtIndexDELT[i] = 0;
+        if (debtIndexMR[i] <= 0) {
+            debtIndexMR[i] = 0;
         }
     }
 }
