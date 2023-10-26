@@ -30,6 +30,15 @@ body {
     justify-content: space-between;
 }
 
+.question {
+    text-align: center;
+}
+
+.question .a {
+    margin: 0 auto;
+    width: 50%;
+}
+
 .tenant-section {
     display: flex;
     align-items: center;
