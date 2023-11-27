@@ -17,7 +17,7 @@
     <p>For more in-depth info, scroll to the bottom of the page.</p>
 
 <section id="sliders">
-    <div class="DELT slider-container" style="display: none"> <!-- add/remove "display: none" tag to show/hide -->
+    <div class="DELT slider-container"> <!-- add/remove "display: none" tag to show/hide -->
         <label class="slider-label">DELTflation:</label>
         <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
         <span id="DELTflationValue">1.05</span>
@@ -54,7 +54,7 @@
     </div>
 </section>
 
-<div class="tenant-section">
+<div class="tenant-section" style="display: none"> <!-- change style tag to show/hide for now. TODO: change "second DELTflation" the way dissolveLength behaves -->
     <div id="move-in-out">
         <h3>Pretend you're a tenant!</h3>
         <p>Change the sliders and the numbers below<br>and see how your results might change.</p>

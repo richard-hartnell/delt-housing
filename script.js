@@ -81,7 +81,7 @@ const simulateTenant = () => {
 // as housemates increase, debt takes longer to pay off?!
 
 const updateDebtIndexDELT = () => {
-    debtIndexDELT[0] = parseInt(homePrice.value);
+    debtIndexDELT[0] = parseInt(homePrice.value * 1.7);
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
     for (let i = 1; i <= 100; i++) {
@@ -106,7 +106,7 @@ const updateDebtIndexDELT = () => {
 const updateDebtIndexMR = () => {
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
-    debtIndexMR[0] = parseInt(homePrice.value);
+    debtIndexMR[0] = parseInt(homePrice.value * 1.7);
     for (let i = 1; i <= 80; i++) {
         debtIndexMR[i] = debtIndexMR[i-1] - (MRindex[i] / 2);
         if (debtIndexMR[i] <= 0) {
@@ -375,7 +375,7 @@ function secondPlot() {
   const minX = 1;
   const maxX = 100;
   const minY = 0; // Start the Y-axis from firstMonthRent
-  const maxY = 40000; // Change this to the maximum value of your data
+  const maxY = parseInt(homePrice.value * 1.7); // Change this to the maximum value of your data
 
   // Clear the canvas
   debt_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
@@ -421,7 +421,7 @@ function secondPlot() {
     // Draw the DELT debt plot
     debt_ctx.beginPath();
     for (let x = minX; x <= maxX; x++) {
-        const y = debtIndexDELT[x] / 20; // Remove the scaling factor
+        const y = debtIndexDELT[x]
         const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
         const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
         if (x === minX) {
@@ -437,7 +437,7 @@ function secondPlot() {
         // Draw the MR debt plot
         debt_ctx.beginPath();
         for (let x = minX; x <= maxX; x++) {
-            const y = debtIndexMR[x] / 20; // Remove the scaling factor
+            const y = debtIndexMR[x]
             const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
             const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
             if (x === minX) {
