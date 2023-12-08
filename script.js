@@ -84,13 +84,14 @@ const updateDebtIndexDELT = () => {
     debtIndexDELT[0] = parseInt(homePrice.value * 1.7);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
-    for (let i = 1; i <= 100; i++) {
+    const _housemates = housemates.value;
+    for (let i = 1; i <= 200; i++) {
         if (i <= _mortgageLength) {
             debtIndexDELT[i] = debtIndexDELT[i-1] + (DELTindex[i] / 2);
-            debtIndexDELT[i] -= (DELTindex[i] / 2);
+            debtIndexDELT[i] -= (DELTindex[i] / 2) * _housemates;
         } else if (i > _mortgageLength && i < (_mortgageLength + _dissolveLength)) {
             debtIndexDELT[i] = debtIndexDELT[i-1] + ((DELTindex[i] / 2) * (1 - ((i - _mortgageLength) / _dissolveLength)));
-            debtIndexDELT[i] -= (DELTindex[i] / 2);
+            debtIndexDELT[i] -= (DELTindex[i] / 2) * _housemates;
             if (debtIndexDELT[i] < 0) {
                 debtIndexDELT[i] = 0;
             }
@@ -107,8 +108,8 @@ const updateDebtIndexMR = () => {
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     debtIndexMR[0] = parseInt(homePrice.value * 1.7);
-    for (let i = 1; i <= 80; i++) {
-        debtIndexMR[i] = debtIndexMR[i-1] - (MRindex[i] / 2);
+    for (let i = 1; i <= 100; i++) {
+        debtIndexMR[i] = debtIndexMR[i-1] - ((MRindex[i] / 2) * housemates.value);
         if (debtIndexMR[i] <= 0) {
             debtIndexMR[i] = 0;
         }
@@ -375,7 +376,7 @@ function updateMortageLengthGraphLine(mortgageLengthValue) {
 
 function secondPlot() {
   const canvas_two = document.getElementById('debtCanvas');
-  const debt_ctx = canvas_two.getContext('2d');
+  const loan_ctx = canvas_two.getContext('2d');
   // Set up the range and scaling factors
   const minX = 1;
   const maxX = 100;
@@ -383,77 +384,77 @@ function secondPlot() {
   const maxY = parseInt(homePrice.value * 1.7); // Change this to the maximum value of your data
 
   // Clear the canvas
-  debt_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
+  loan_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
 
   // Draw the X and Y axes
-  debt_ctx.beginPath();
-  debt_ctx.moveTo(60, canvas_two.height - 60);
-  debt_ctx.lineTo(canvas_two.width - 30, canvas_two.height - 60);
-  debt_ctx.moveTo(60, canvas_two.height - 60);
-  debt_ctx.lineTo(60, 30);
-  debt_ctx.strokeStyle = 'black'; // Axis color
-  debt_ctx.lineWidth = 2; // Axis line width
-  debt_ctx.stroke();
+  loan_ctx.beginPath();
+  loan_ctx.moveTo(60, canvas_two.height - 60);
+  loan_ctx.lineTo(canvas_two.width - 30, canvas_two.height - 60);
+  loan_ctx.moveTo(60, canvas_two.height - 60);
+  loan_ctx.lineTo(60, 30);
+  loan_ctx.strokeStyle = 'black'; // Axis color
+  loan_ctx.lineWidth = 2; // Axis line width
+  loan_ctx.stroke();
 
-  debt_ctx.font = '16px Arial';
-    debt_ctx.fillStyle = 'black';
-    debt_ctx.textAlign = 'center';
-    debt_ctx.fillText('X = Time (years)', canvas_two.width / 2, canvas_two.height - 40);
-    debt_ctx.save(); // Save the current context state
-    debt_ctx.translate(20, canvas_two.height / 2); // Translate to the Y axis label position
-    debt_ctx.rotate(-Math.PI / 2); // Rotate for Y axis label
-    debt_ctx.font = '16px Arial';
-    debt_ctx.fillText('Y = Debt ($)', 0, 0);
-    debt_ctx.restore(); // Restore the context state
+  loan_ctx.font = '16px Arial';
+    loan_ctx.fillStyle = 'black';
+    loan_ctx.textAlign = 'center';
+    loan_ctx.fillText('X = Time (years)', canvas_two.width / 2, canvas_two.height - 40);
+    loan_ctx.save(); // Save the current context state
+    loan_ctx.translate(20, canvas_two.height / 2); // Translate to the Y axis label position
+    loan_ctx.rotate(-Math.PI / 2); // Rotate for Y axis label
+    loan_ctx.font = '16px Arial';
+    loan_ctx.fillText('Y = Debt ($)', 0, 0);
+    loan_ctx.restore(); // Restore the context state
 
     // Draw labels on the Y axis
     const maxDebt = debtIndexDELT[0];
-    debt_ctx.font = '12px Arial';
-    debt_ctx.fillStyle = 'black';
-    debt_ctx.textAlign = 'right';
-    debt_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
-    debt_ctx.fillText('$' + maxDebt, 55, 45);
+    loan_ctx.font = '12px Arial';
+    loan_ctx.fillStyle = 'black';
+    loan_ctx.textAlign = 'right';
+    loan_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
+    loan_ctx.fillText('$' + maxDebt, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
-    debt_ctx.font = '12px Arial';
-    debt_ctx.fillStyle = 'black';
-    debt_ctx.textAlign = 'center';
+    loan_ctx.font = '12px Arial';
+    loan_ctx.fillStyle = 'black';
+    loan_ctx.textAlign = 'center';
     for (let x = 5; x <= 100; x += 5) {
         const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
-        debt_ctx.fillText(x, plotX, canvas_two.height - 10);
+        loan_ctx.fillText(x, plotX, canvas_two.height - 10);
     }
 
     // Draw the DELT debt plot
-    debt_ctx.beginPath();
+    loan_ctx.beginPath();
     for (let x = minX; x <= maxX; x++) {
         const y = debtIndexDELT[x]
         const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
         const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
         if (x === minX) {
-            debt_ctx.moveTo(plotX, plotY);
+            loan_ctx.moveTo(plotX, plotY);
         } else {
-            debt_ctx.lineTo(plotX, plotY);
+            loan_ctx.lineTo(plotX, plotY);
         }
     }
-    debt_ctx.strokeStyle = 'red'; // MRindex plot color
-    debt_ctx.lineWidth = 2; // Plot line width
-    debt_ctx.stroke();
+    loan_ctx.strokeStyle = 'red'; // MRindex plot color
+    loan_ctx.lineWidth = 2; // Plot line width
+    loan_ctx.stroke();
 
         // Draw the MR debt plot
-        debt_ctx.beginPath();
+        loan_ctx.beginPath();
         for (let x = minX; x <= maxX; x++) {
             const y = debtIndexMR[x]
             const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
             const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
             if (x === minX) {
-                debt_ctx.moveTo(plotX, plotY);
+                loan_ctx.moveTo(plotX, plotY);
             } else {
-                debt_ctx.lineTo(plotX, plotY);
+                loan_ctx.lineTo(plotX, plotY);
             }
         }
-        debt_ctx.strokeStyle = 'green'; // MRindex plot color
-        debt_ctx.lineWidth = 2; // Plot line width
-        debt_ctx.stroke();
+        loan_ctx.strokeStyle = 'green'; // MRindex plot color
+        loan_ctx.lineWidth = 2; // Plot line width
+        loan_ctx.stroke();
     
 }
 
