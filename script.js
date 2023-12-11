@@ -87,16 +87,16 @@ const updateDebtIndexDELT = () => {
     const _housemates = housemates.value;
     for (let i = 1; i <= 200; i++) {
         if (i <= _mortgageLength) {
-            debtIndexDELT[i] = debtIndexDELT[i-1] + (DELTindex[i] / 2);
+            debtIndexDELT[i] = debtIndexDELT[i-1] + ((DELTindex[i] / 2) * _housemates);
             debtIndexDELT[i] -= (DELTindex[i] / 2) * _housemates;
         } else if (i > _mortgageLength && i < (_mortgageLength + _dissolveLength)) {
             debtIndexDELT[i] = debtIndexDELT[i-1] + ((DELTindex[i] / 2) * (1 - ((i - _mortgageLength) / _dissolveLength)));
-            debtIndexDELT[i] -= (DELTindex[i] / 2) * _housemates;
+            debtIndexDELT[i] -= ((DELTindex[i] / 2) * _housemates);
             if (debtIndexDELT[i] < 0) {
                 debtIndexDELT[i] = 0;
             }
         } else if (i >= (_mortgageLength + _dissolveLength)) {
-            debtIndexDELT[i] = debtIndexDELT[i - 1] - (DELTindex[i] / 2);
+            debtIndexDELT[i] = debtIndexDELT[i - 1] - ((DELTindex[i] / 2) * _housemates);
             if (debtIndexDELT[i] < 0) {
                 debtIndexDELT[i] = 0;
             }
@@ -271,13 +271,13 @@ function drawPlot() {
     ctx.fillText('Y = Rent ($)', 0, 0);
     ctx.restore(); // Restore the context state
 
-    // Draw labels on the Y axis
-    const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
-    ctx.font = '12px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'right';
-    ctx.fillText('$' + firstMonthRent, 55, canvas.height - 65);
-    ctx.fillText('$' + MRindex100, 55, 45);
+    // // Draw labels on the Y axis
+    // const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
+    // ctx.font = '12px Arial';
+    // ctx.fillStyle = 'black';
+    // ctx.textAlign = 'right';
+    // ctx.fillText('$' + firstMonthRent, 55, canvas.height - 65);
+    // ctx.fillText('$' + MRindex100, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
     ctx.font = '12px Arial';
@@ -291,7 +291,7 @@ function drawPlot() {
     // Draw the MRindex plot
     ctx.beginPath();
     for (let x = minX; x <= maxX; x++) {
-        const y = MRindex[x]; // Remove the scaling factor
+        const y = MRindex[x];
         const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
         const plotY = canvas.height - ((y - minY) / (maxY - minY) * (canvas.height - 90) + 60);
         if (x === minX) {
