@@ -1,6 +1,22 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier New', Courier, monospace, sans-serif;
     text-align: center;
+}
+
+#title {
+    font-size: 11vw;
+    font-weight: bold;
+    margin: auto;
+}
+
+#byline {
+    font-size: 5vw;
+    margin: 5% auto;
+}
+
+p {
+    font-size: 3vw;
+    margin: 5% 5%;
 }
 
 .slider-container {

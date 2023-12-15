@@ -77,9 +77,6 @@ const simulateTenant = () => {
     tenantEndRent.textContent = Math.round((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100);
 };
 
-// debt index problem:
-// as housemates increase, debt takes longer to pay off?!
-
 const updateDebtIndexDELT = () => {
     debtIndexDELT[0] = parseInt(homePrice.value * 1.7);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
@@ -158,7 +155,7 @@ const updateDELTindex = () => {
 };
 
 const updateFirstMonthRent = () => {
-    const priceAfterInterest = parseInt(homePrice.value) * 1.7; // todo: fix this
+    const priceAfterInterest = parseInt(homePrice.value) * 1.7; // todo: fix this?
     const mortgageLengthValue = parseInt(mortgageLength.value);
     const housemateSliderValue = parseInt(housemates.value);
     const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
@@ -236,8 +233,8 @@ function drawPlot() {
     ctx.lineTo(canvas.width - 30, canvas.height - 60);
     ctx.moveTo(60, canvas.height - 60);
     ctx.lineTo(60, 30);
-    ctx.strokeStyle = 'black'; // Axis color
-    ctx.lineWidth = 2; // Axis line width
+    ctx.strokeStyle = 'black'; //
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     // Draw the vertical line at mortgageLengthValue
@@ -246,8 +243,8 @@ function drawPlot() {
     ctx.beginPath();
     ctx.moveTo(plotX, canvas.height - 60);
     ctx.lineTo(plotX, 30);
-    ctx.strokeStyle = 'black'; // Line color
-    ctx.lineWidth = 1; // Line width
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
     ctx.stroke();
 
     // And the vert at mortgageLengthValue + dissolveLengthValue
@@ -255,8 +252,8 @@ function drawPlot() {
     ctx.beginPath();
     ctx.moveTo(dissolveLine, 30);
     ctx.lineTo(dissolveLine, canvas.height - 30);
-    ctx.strokeStyle = 'purple'; // Line color
-    ctx.lineWidth = 2; // Line width
+    ctx.strokeStyle = 'purple'; //
+    ctx.lineWidth = 2;
     ctx.stroke();
 
     // Label the X and Y axes
@@ -270,14 +267,6 @@ function drawPlot() {
     ctx.font = '16px Arial';
     ctx.fillText('Y = Rent ($)', 0, 0);
     ctx.restore(); // Restore the context state
-
-    // // Draw labels on the Y axis
-    // const MRindex100 = parseInt(document.getElementById('MRindex').textContent);
-    // ctx.font = '12px Arial';
-    // ctx.fillStyle = 'black';
-    // ctx.textAlign = 'right';
-    // ctx.fillText('$' + firstMonthRent, 55, canvas.height - 65);
-    // ctx.fillText('$' + MRindex100, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
     ctx.font = '12px Arial';
