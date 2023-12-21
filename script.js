@@ -1,15 +1,15 @@
-
+// vars!
 const DELTflationSlider = document.getElementById('DELTflation');
 const DELTflationValue = document.getElementById('DELTflationValue');
 const dissolveLength = document.getElementById('dissolveLength');
 const dissolveLengthValue = document.getElementById('dissolveLengthValue');
+const mortgageRate = document.getElementById('mortgageRate');
+const mortgageRateValue = document.getElementById('mortgageRateValue');
 const mortgageLength = document.getElementById('mortgageLength');
 const mortgageLengthValue = document.getElementById('mortgageLengthValue');
 const homePrice = document.getElementById('homePrice');
-const output1 = document.getElementById('output1');
 const homePriceValue = document.getElementById('homePriceValue');
 const housemates = document.getElementById('housemates');
-const output2 = document.getElementById('output2');
 const housematesValue = document.getElementById('housematesValue');
 const year = document.getElementById('year');
 const yearValue = document.getElementById('yearValue');
@@ -78,7 +78,7 @@ const simulateTenant = () => {
 };
 
 const updateDebtIndexDELT = () => {
-    debtIndexDELT[0] = parseInt(homePrice.value * 1.7);
+    debtIndexDELT[0] = parseInt(homePrice.value);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     const _housemates = housemates.value;
@@ -104,7 +104,7 @@ const updateDebtIndexDELT = () => {
 const updateDebtIndexMR = () => {
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
-    debtIndexMR[0] = parseInt(homePrice.value * 1.7);
+    debtIndexMR[0] = parseInt(homePrice.value);
     for (let i = 1; i <= 100; i++) {
         debtIndexMR[i] = debtIndexMR[i-1] - ((MRindex[i] / 2) * housemates.value);
         if (debtIndexMR[i] <= 0) {
@@ -133,6 +133,7 @@ updateINFindex();
 const DELTindex = {};
 const updateDELTindex = () => {
     updateINFindex();
+    const _mortgageRate = parseFloat(mortgageRate.value);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     const _firstMonthRent = parseInt(firstMonthRentValue.textContent);
@@ -155,10 +156,10 @@ const updateDELTindex = () => {
 };
 
 const updateFirstMonthRent = () => {
-    const priceAfterInterest = parseInt(homePrice.value) * 1.7; // todo: fix this?
+    const initialPrice = parseInt(homePrice.value);
     const mortgageLengthValue = parseInt(mortgageLength.value);
     const housemateSliderValue = parseInt(housemates.value);
-    const firstMonthRent = Math.floor(priceAfterInterest * 2 / mortgageLengthValue / 12 / housemateSliderValue);
+    const firstMonthRent = Math.floor(initialPrice * 2 / mortgageLengthValue / 12 / housemateSliderValue);
     firstMonthRentValue.textContent = firstMonthRent;
     updateDELTindex();
     updateMRindex();
@@ -370,7 +371,7 @@ function secondPlot() {
   const minX = 1;
   const maxX = 100;
   const minY = 0; // Start the Y-axis from firstMonthRent
-  const maxY = parseInt(homePrice.value * 1.7); // Change this to the maximum value of your data
+  const maxY = parseInt(homePrice.value) + 100000; // Change this to the maximum value of your data
 
   // Clear the canvas
   loan_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
@@ -447,5 +448,4 @@ function secondPlot() {
     
 }
 
-// on page load
 updateFirstMonthRent();
