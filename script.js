@@ -71,7 +71,6 @@ const simulateTenant = () => {
     tenantRentAdjusted.textContent = tenantRentAdjustedValue;
     tenantRentAdjustedDeflated.textContent = Math.round(tenantRentAdjustedValue / Math.pow((1.03), parseInt(moveOutYear.value)));
     tenantRentMRAdjustedDeflated.textContent = Math.round(tenantRentPaidMRValue / Math.pow((1.03), parseInt(moveOutYear.value)));
-    
     adjustedVersusMR.textContent = Math.round(100 - ((tenantRentAdjustedValue / tenantRentPaidMRValue) * 100).toFixed(1));
     tenantStartRent.textContent = Math.round((DELTindex[tenantMoveInYearValue] / MRindex[tenantMoveInYearValue]) * 100);
     tenantEndRent.textContent = Math.round((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100);
@@ -79,21 +78,24 @@ const simulateTenant = () => {
 
 const updateDebtIndexDELT = () => {
     debtIndexDELT[0] = parseInt(homePrice.value);
+    let _mortgageDebt = parseInt(homePrice.value);
+    let _tenantDebt = 0;
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     const _housemates = housemates.value;
     for (let i = 1; i <= 200; i++) {
-        if (i <= _mortgageLength) {
-            debtIndexDELT[i] = debtIndexDELT[i-1] + ((DELTindex[i] / 2) * _housemates);
-            debtIndexDELT[i] -= (DELTindex[i] / 2) * _housemates;
-        } else if (i > _mortgageLength && i < (_mortgageLength + _dissolveLength)) {
-            debtIndexDELT[i] = debtIndexDELT[i-1] + ((DELTindex[i] / 2) * (1 - ((i - _mortgageLength) / _dissolveLength)));
-            debtIndexDELT[i] -= ((DELTindex[i] / 2) * _housemates);
-            if (debtIndexDELT[i] < 0) {
-                debtIndexDELT[i] = 0;
+        if (_mortgageDebt > 0) {
+            _mortgageDebt -= (DELTindex[i] / 2) * _housemates * 12;
+            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12;
+            debtIndexDELT[i] = _mortgageDebt + _tenantDebt;
+            _mortgageDebt *= 1.05;
+            if (_mortgageDebt < 0) {
+                _mortgageDebt = 0;
             }
-        } else if (i >= (_mortgageLength + _dissolveLength)) {
-            debtIndexDELT[i] = debtIndexDELT[i - 1] - ((DELTindex[i] / 2) * _housemates);
+        } else if (_mortgageDebt <= 0 && _tenantDebt > 0) {
+            _tenantDebt -= (DELTindex[i] / 2) * _housemates * 12;
+            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (1 - ((i - _mortgageLength) / _dissolveLength));
+            debtIndexDELT[i] = _tenantDebt
             if (debtIndexDELT[i] < 0) {
                 debtIndexDELT[i] = 0;
             }
@@ -102,14 +104,16 @@ const updateDebtIndexDELT = () => {
 }
 
 const updateDebtIndexMR = () => {
+    let _mortgageValue = parseInt(homePrice.value);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     debtIndexMR[0] = parseInt(homePrice.value);
     for (let i = 1; i <= 100; i++) {
-        debtIndexMR[i] = debtIndexMR[i-1] - ((MRindex[i] / 2) * housemates.value);
+        debtIndexMR[i] = debtIndexMR[i-1] - ((MRindex[i] / 2) * housemates.value * 12);
         if (debtIndexMR[i] <= 0) {
             debtIndexMR[i] = 0;
         }
+        debtIndexMR[i] *= 1.05;
     }
 }
 
@@ -138,8 +142,7 @@ const updateDELTindex = () => {
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     const _firstMonthRent = parseInt(firstMonthRentValue.textContent);
     const DELTflation = parseFloat(DELTflationSlider.value);
-    const dInf = (inflation - DELTflation) / _dissolveLength;
-    for (let i = 1; i <= 100; i++) {
+        for (let i = 1; i <= 100; i++) {
         if (i <= _mortgageLength) {
             DELTindex[i] = Math.round(_firstMonthRent * Math.pow(DELTflation, i));
         } else if (i <= (_mortgageLength + _dissolveLength)) {
@@ -157,9 +160,9 @@ const updateDELTindex = () => {
 
 const updateFirstMonthRent = () => {
     const initialPrice = parseInt(homePrice.value);
-    const mortgageLengthValue = parseInt(mortgageLength.value);
-    const housemateSliderValue = parseInt(housemates.value);
-    const firstMonthRent = Math.floor(initialPrice * 2 / mortgageLengthValue / 12 / housemateSliderValue);
+    const _mortgageLength = parseInt(mortgageLength.value);
+    const _housemates = parseInt(housemates.value);
+    const firstMonthRent = Math.floor(initialPrice * 2 / _mortgageLength / 12 / _housemates);
     firstMonthRentValue.textContent = firstMonthRent;
     updateDELTindex();
     updateMRindex();
@@ -169,7 +172,7 @@ const updateFirstMonthRent = () => {
     simulateTenant();
     drawPlot();
     secondPlot();
-    updateYAxisLabels(firstMonthRent, MRindex[100]);
+    // updateYAxisLabels(firstMonthRent, MRindex[100]);
 };
 
 DELTflationSlider.addEventListener('input', () => {
@@ -327,19 +330,19 @@ function drawPlot() {
     secondPlot();
 }
 
-function updateYAxisLabels(firstMonthRentValue, MRindex100) {
-    const canvas = document.getElementById('rentCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, 60, canvas.height);
+// function updateYAxisLabels(firstMonthRentValue, MRindex100) {
+//     const canvas = document.getElementById('rentCanvas');
+//     const ctx = canvas.getContext('2d');
+//     ctx.clearRect(0, 0, 60, canvas.height);
 
-    // Draw labels on the Y axis
-    ctx.font = '12px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'right';
-    ctx.fillText('$' + firstMonthRentValue, 55, canvas.height - 60);
-    ctx.fillText('$' + MRindex100, 55, 30);
-    drawPlot();
-}
+//     // Draw labels on the Y axis
+//     ctx.font = '12px Arial';
+//     ctx.fillStyle = 'black';
+//     ctx.textAlign = 'right';
+//     ctx.fillText('$' + firstMonthRentValue, 55, canvas.height - 60);
+//     ctx.fillText('$' + MRindex100, 55, 30);
+//     drawPlot();
+// }
 
 function updateMortageLengthGraphLine(mortgageLengthValue) {
     const canvas = document.getElementById('rentCanvas');
@@ -369,24 +372,24 @@ function secondPlot() {
   const loan_ctx = canvas_two.getContext('2d');
   // Set up the range and scaling factors
   const minX = 1;
-  const maxX = 100;
+  const maxX = 50;
   const minY = 0; // Start the Y-axis from firstMonthRent
-  const maxY = parseInt(homePrice.value) + 100000; // Change this to the maximum value of your data
+  const maxY = parseInt(homePrice.value) + 500000; // Change this to the maximum value of your data
 
   // Clear the canvas
   loan_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
 
   // Draw the X and Y axes
-  loan_ctx.beginPath();
-  loan_ctx.moveTo(60, canvas_two.height - 60);
-  loan_ctx.lineTo(canvas_two.width - 30, canvas_two.height - 60);
-  loan_ctx.moveTo(60, canvas_two.height - 60);
-  loan_ctx.lineTo(60, 30);
-  loan_ctx.strokeStyle = 'black'; // Axis color
-  loan_ctx.lineWidth = 2; // Axis line width
-  loan_ctx.stroke();
+    loan_ctx.beginPath();
+    loan_ctx.moveTo(60, canvas_two.height - 60);
+    loan_ctx.lineTo(canvas_two.width - 30, canvas_two.height - 60);
+    loan_ctx.moveTo(60, canvas_two.height - 60);
+    loan_ctx.lineTo(60, 30);
+    loan_ctx.strokeStyle = 'black'; // Axis color
+    loan_ctx.lineWidth = 2; // Axis line width
+    loan_ctx.stroke();
 
-  loan_ctx.font = '16px Arial';
+    loan_ctx.font = '16px Arial';
     loan_ctx.fillStyle = 'black';
     loan_ctx.textAlign = 'center';
     loan_ctx.fillText('X = Time (years)', canvas_two.width / 2, canvas_two.height - 40);
@@ -398,7 +401,7 @@ function secondPlot() {
     loan_ctx.restore(); // Restore the context state
 
     // Draw labels on the Y axis
-    const maxDebt = debtIndexDELT[0];
+    const maxDebt = debtIndexDELT[0] + 400000;
     loan_ctx.font = '12px Arial';
     loan_ctx.fillStyle = 'black';
     loan_ctx.textAlign = 'right';
@@ -426,26 +429,25 @@ function secondPlot() {
             loan_ctx.lineTo(plotX, plotY);
         }
     }
-    loan_ctx.strokeStyle = 'red'; // MRindex plot color
-    loan_ctx.lineWidth = 2; // Plot line width
+    loan_ctx.strokeStyle = 'red';
+    loan_ctx.lineWidth = 2;
     loan_ctx.stroke();
 
-        // Draw the MR debt plot
-        loan_ctx.beginPath();
-        for (let x = minX; x <= maxX; x++) {
-            const y = debtIndexMR[x]
-            const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
-            const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
-            if (x === minX) {
-                loan_ctx.moveTo(plotX, plotY);
-            } else {
-                loan_ctx.lineTo(plotX, plotY);
-            }
+    // Draw the MR debt plot
+    loan_ctx.beginPath();
+    for (let x = minX; x <= maxX; x++) {
+        const y = debtIndexMR[x]
+        const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
+        const plotY = canvas_two.height - ((y - minY) / (maxY - minY) * (canvas_two.height - 90) + 60);
+        if (x === minX) {
+            loan_ctx.moveTo(plotX, plotY);
+        } else {
+            loan_ctx.lineTo(plotX, plotY);
         }
-        loan_ctx.strokeStyle = 'green'; // MRindex plot color
-        loan_ctx.lineWidth = 2; // Plot line width
-        loan_ctx.stroke();
-    
+    }
+    loan_ctx.strokeStyle = 'green';
+    loan_ctx.lineWidth = 2;
+    loan_ctx.stroke();
 }
 
 updateFirstMonthRent();
