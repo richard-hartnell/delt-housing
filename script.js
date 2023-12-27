@@ -76,33 +76,6 @@ const simulateTenant = () => {
     tenantEndRent.textContent = Math.round((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100);
 };
 
-const updateDebtIndexDELT = () => {
-    debtIndexDELT[0] = parseInt(homePrice.value);
-    let _mortgageDebt = parseInt(homePrice.value);
-    let _tenantDebt = 0;
-    const _mortgageLength = parseInt(mortgageLengthValue.textContent);
-    const _dissolveLength = parseInt(dissolveLengthValue.textContent);
-    const _housemates = housemates.value;
-    for (let i = 1; i <= 200; i++) {
-        if (_mortgageDebt > 0) {
-            _mortgageDebt -= (DELTindex[i] / 2) * _housemates * 12;
-            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12;
-            debtIndexDELT[i] = _mortgageDebt + _tenantDebt;
-            _mortgageDebt *= 1.05;
-            if (_mortgageDebt < 0) {
-                _mortgageDebt = 0;
-            }
-        } else if (_mortgageDebt <= 0 && _tenantDebt > 0) {
-            _tenantDebt -= (DELTindex[i] / 2) * _housemates * 12;
-            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (1 - ((i - _mortgageLength) / _dissolveLength));
-            debtIndexDELT[i] = _tenantDebt
-            if (debtIndexDELT[i] < 0) {
-                debtIndexDELT[i] = 0;
-            }
-        }
-    }
-}
-
 const updateDebtIndexMR = () => {
     let _mortgageValue = parseInt(homePrice.value);
     const _mortgageLength = parseInt(mortgageLengthValue.textContent);
@@ -145,10 +118,9 @@ const updateDELTindex = () => {
         for (let i = 1; i <= 100; i++) {
         if (i <= _mortgageLength) {
             DELTindex[i] = Math.round(_firstMonthRent * Math.pow(DELTflation, i));
-        } else if (i <= (_mortgageLength + _dissolveLength)) {
-            DELTindex[i] = Math.round(DELTindex[i - 1] * inflation);
+        // } else if (i <= (_mortgageLength + _dissolveLength)) {
+        //     DELTindex[i] = Math.round(DELTindex[i - 1] * inflation);
         } else {
-            
             DELTindex[i] = Math.round(DELTindex[i-1] * inflation);
             if (DELTindex[i] > INFindex[i]) {
                 DELTindex[i] -= (DELTindex[i] - INFindex[i]) * 0.05;
@@ -157,6 +129,35 @@ const updateDELTindex = () => {
     }
     document.getElementById('DELTindex').textContent = DELTindex[parseInt(yearValue.textContent)];
 };
+
+const updateDebtIndexDELT = () => {
+    debtIndexDELT[0] = parseInt(homePrice.value);
+    let _mortgageDebt = parseInt(homePrice.value);
+    let _tenantDebt = 0;
+    const _mortgageLength = parseInt(mortgageLengthValue.textContent);
+    const _dissolveLength = parseInt(dissolveLengthValue.textContent);
+    const _housemates = housemates.value;
+    for (let i = 1; i <= 100; i++) {
+        if (_mortgageDebt <= 0) {
+            _mortgageDebt = 0;
+        }
+        let _dF = (1 - ((i - _mortgageLength) / _dissolveLength));
+        if (_dF <= 0) {_dF = 0};
+        if (_mortgageDebt > 0) {
+            _mortgageDebt -= (DELTindex[i] / 2) * _housemates * 12;
+            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12;
+            debtIndexDELT[i] = _mortgageDebt + _tenantDebt;
+            _mortgageDebt *= 1.05;
+        } else if (_tenantDebt > 0) {
+            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (_dF);
+            _tenantDebt -= (DELTindex[i] / 2) * _housemates * 12;
+            debtIndexDELT[i] = _tenantDebt;
+        }
+        if (debtIndexDELT[i] <= 0) {
+            debtIndexDELT[i] = 0;
+        }
+    }
+}
 
 const updateFirstMonthRent = () => {
     const initialPrice = parseInt(homePrice.value);
@@ -222,7 +223,7 @@ function drawPlot() {
 
     // Set up the range and scaling factors
     const minX = 1;
-    const maxX = 75;
+    const maxX = 50;
     firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent);
     // updateMRindex;
     const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
