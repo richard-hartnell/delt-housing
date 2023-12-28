@@ -138,21 +138,26 @@ const updateDebtIndexDELT = () => {
     const _dissolveLength = parseInt(dissolveLengthValue.textContent);
     const _housemates = housemates.value;
     for (let i = 1; i <= 100; i++) {
-        if (_mortgageDebt <= 0) {
-            _mortgageDebt = 0;
-        }
         let _dF = (1 - ((i - _mortgageLength) / _dissolveLength));
-        if (_dF <= 0) {_dF = 0};
-        if (_mortgageDebt > 0) {
-            _mortgageDebt -= (DELTindex[i] / 2) * _housemates * 12;
-            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12;
-            debtIndexDELT[i] = _mortgageDebt + _tenantDebt;
-            _mortgageDebt *= 1.05;
-        } else if (_tenantDebt > 0) {
+        if (_dF < 0) {
+            _dF = 0;
+        };
+        if (_mortgageDebt == 0) {
             _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (_dF);
             _tenantDebt -= (DELTindex[i] / 2) * _housemates * 12;
             debtIndexDELT[i] = _tenantDebt;
         }
+        else if (_mortgageDebt <= (DELTindex[i] / 2) * _housemates * 12) {
+            _tenantDebt += (_mortgageDebt);
+            debtIndexDELT[i] = _tenantDebt;
+            _mortgageDebt = 0;
+        }
+        else if (_mortgageDebt > (DELTindex[i] / 2) * _housemates * 12) {
+            _mortgageDebt -= (DELTindex[i] / 2) * _housemates * 12;
+            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12;
+            debtIndexDELT[i] = _mortgageDebt + _tenantDebt;
+            _mortgageDebt *= 1.05;
+        } 
         if (debtIndexDELT[i] <= 0) {
             debtIndexDELT[i] = 0;
         }
@@ -173,7 +178,6 @@ const updateFirstMonthRent = () => {
     simulateTenant();
     drawPlot();
     secondPlot();
-    // updateYAxisLabels(firstMonthRent, MRindex[100]);
 };
 
 DELTflationSlider.addEventListener('input', () => {
@@ -225,9 +229,10 @@ function drawPlot() {
     const minX = 1;
     const maxX = 50;
     firstMonthRent = parseInt(document.getElementById('firstMonthRentValue').textContent);
+
     // updateMRindex;
-    const minY = firstMonthRent; // Start the Y-axis from firstMonthRent
-    const maxY = 40000; // Change this to the maximum value of your data
+    const minY = firstMonthRent;
+    const maxY = 10000;
 
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
