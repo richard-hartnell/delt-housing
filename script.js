@@ -143,7 +143,7 @@ const updateDebtIndexDELT = () => {
             _dF = 0;
         };
         if (_mortgageDebt == 0) {
-            _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (_dF);
+                _tenantDebt += (DELTindex[i] / 2) * _housemates * 12 * (_dF);
             _tenantDebt -= (DELTindex[i] / 2) * _housemates * 12;
             debtIndexDELT[i] = _tenantDebt;
         }
@@ -380,7 +380,7 @@ function secondPlot() {
   const minX = 1;
   const maxX = 50;
   const minY = 0; // Start the Y-axis from firstMonthRent
-  const maxY = parseInt(homePrice.value) + 500000; // Change this to the maximum value of your data
+  const maxY = parseInt(homePrice.value) * 1.8; // Change this to the maximum value of your data
 
   // Clear the canvas
   loan_ctx.clearRect(0, 0, canvas_two.width, canvas_two.height);
@@ -406,13 +406,13 @@ function secondPlot() {
     loan_ctx.fillText('Y = Debt ($)', 0, 0);
     loan_ctx.restore(); // Restore the context state
 
-    // Draw labels on the Y axis
-    const maxDebt = debtIndexDELT[0] + 400000;
-    loan_ctx.font = '12px Arial';
-    loan_ctx.fillStyle = 'black';
-    loan_ctx.textAlign = 'right';
-    loan_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
-    loan_ctx.fillText('$' + maxDebt, 55, 45);
+    // // Draw labels on the Y axis
+    // const maxDebt = debtIndexDELT[0] + 400000;
+    // loan_ctx.font = '12px Arial';
+    // loan_ctx.fillStyle = 'black';
+    // loan_ctx.textAlign = 'right';
+    // loan_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
+    // loan_ctx.fillText('$' + maxDebt, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
     loan_ctx.font = '12px Arial';
