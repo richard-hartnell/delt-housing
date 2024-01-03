@@ -299,7 +299,7 @@ function drawPlot() {
             ctx.lineTo(plotX, plotY);
         }
     }
-    ctx.strokeStyle = 'red'; // MRindex plot color
+    ctx.strokeStyle = 'brown'; // MRindex plot color
     ctx.lineWidth = 2; // Plot line width
     ctx.stroke();
 
@@ -435,7 +435,7 @@ function secondPlot() {
             loan_ctx.lineTo(plotX, plotY);
         }
     }
-    loan_ctx.strokeStyle = 'red';
+    loan_ctx.strokeStyle = 'green';
     loan_ctx.lineWidth = 2;
     loan_ctx.stroke();
 
@@ -451,7 +451,7 @@ function secondPlot() {
             loan_ctx.lineTo(plotX, plotY);
         }
     }
-    loan_ctx.strokeStyle = 'green';
+    loan_ctx.strokeStyle = 'brown';
     loan_ctx.lineWidth = 2;
     loan_ctx.stroke();
 }

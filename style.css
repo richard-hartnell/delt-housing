@@ -1,6 +1,8 @@
 body {
     font-family: 'Courier New', Courier, monospace, sans-serif;
     text-align: center;
+    width: 75%;
+    margin: 0 auto;
 }
 
 #title {
@@ -17,6 +19,10 @@ body {
 p {
     font-size: 2.5vw;
     margin: 5% 5%;
+}
+
+a {
+    text-decoration: none;
 }
 
 .slider-container {
