@@ -1,4 +1,5 @@
 // vars!
+const debtGraph = document.getElementById('debt-graph');
 const DELTflationSlider = document.getElementById('DELTflation');
 const DELTflationValue = document.getElementById('DELTflationValue');
 const dissolveLength = document.getElementById('dissolveLength');
@@ -65,7 +66,7 @@ const simulateTenant = () => {
 
     adjustedVersusMRValue = tenantRentPaidValue / tenantRentPaidMRValue;
     tenantRentAdjustedValue = Math.round(tenantRentPaidValue - tenantEquityRepaidValue);
-    tenantRentPaid.textContent = tenantRentPaidValue;
+    tenantRentPaid.textContent = Math.round(tenantRentPaidValue);
     tenantRentPaidMR.textContent = tenantRentPaidMRValue;
     tenantEquityRepaid.textContent = Math.round(tenantEquityRepaidValue);
     tenantRentAdjusted.textContent = tenantRentAdjustedValue;
@@ -179,6 +180,16 @@ const updateFirstMonthRent = () => {
     drawPlot();
     secondPlot();
 };
+
+debtGraph.addEventListener('click', () => {
+    if (debtGraph.src.match('debt-graph-1.webp')) {
+        debtGraph.src='debt-graph-2.webp';
+    } else if (debtGraph.src.match('debt-graph-2.webp')) {
+        debtGraph.src='debt-graph-3.webp';
+    } else if (debtGraph.src.match('debt-graph-3.webp')) {
+        debtGraph.src='debt-graph-4.webp';
+    }
+});
 
 DELTflationSlider.addEventListener('input', () => {
     const value = parseFloat(DELTflationSlider.value).toFixed(3);
