@@ -1,5 +1,6 @@
 // vars!
 const debtGraph = document.getElementById('debt-graph');
+const rentGraph = document.getElementById('rent-graph');
 const DELTflationSlider = document.getElementById('DELTflation');
 const DELTflationValue = document.getElementById('DELTflationValue');
 const dissolveLength = document.getElementById('dissolveLength');
@@ -188,6 +189,14 @@ debtGraph.addEventListener('click', () => {
         debtGraph.src='debt-graph-3.webp';
     } else if (debtGraph.src.match('debt-graph-3.webp')) {
         debtGraph.src='debt-graph-4.webp';
+    }
+});
+
+rentGraph.addEventListener('click', () => {
+    if (rentGraph.src.match('rent-graph-1.webp')) {
+        rentGraph.src='rent-graph-2.webp'
+    } else if (rentGraph.src.match('rent-graph-2.webp')) {
+        rentGraph.src='rent-graph-3.webp'
     }
 });
 
