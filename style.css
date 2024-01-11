@@ -1,4 +1,4 @@
-body {
+/* body {
     font-family: 'Courier New', Courier, monospace, sans-serif;
     text-align: center;
     width: 75%;
@@ -64,7 +64,6 @@ a {
 .tenant-section {
     display: flex;
     align-items: center;
-    /* margin: 20px; */
 }
 
 .tenant-section p {
@@ -122,4 +121,4 @@ a {
     p {
         font-size: 5vw;
     }
-}
+} */
