@@ -24,49 +24,6 @@
 
 <hr>
 
-<section id="sliders" style="display: none">
-    <div class="DELT slider-container"> <!-- add/remove "display: none" tag to show/hide -->
-        <label class="slider-label">DELTflation:</label>
-        <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
-        <span id="DELTflationValue">1.05</span>
-    </div>
-
-    <div class="DELT slider-container">
-        <label class="slider-label">Dissolve Length:</label>
-        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
-        <span id="dissolveLengthValue">20</span>
-    </div>
-
-    <div class="DELT slider-container">
-        <label class="slider-label">Mortgage Rates:</label>
-        <input type="range" id="mortgageRate" min="0.00" max="0.08" value="0.07" class="slider">
-        <span id="mortgageRateValue">7%</span>
-    </div>
-
-    <div class="slider-container">
-        <label class="slider-label">Mortgage Length:</label>
-        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
-        <span id="mortgageLengthValue">20 years</span>
-    </div>
-
-    <div class="slider-container">
-        <label class="slider-label">Home Price:</label>
-        <input type="range" id="homePrice" min="100000" max="2000000" value="400000" class="slider">
-        <span id="homePriceValue">$400,000</span>
-    </div>
-
-    <div class="slider-container">
-        <label class="slider-label"># of Residents:</label>
-        <input type="range" id="housemates" min="1" max="20" value="5" class="slider">
-        <span id="housematesValue">5</span>
-    </div>
-
-    <div class="DELT slider-container" style="display: none">
-        <label class="slider-label">Year:</label>
-        <input type="range" id="year" min="1" max="100" value="1" class="slider">
-        <span id="yearValue">50</span>
-    </div>
-</section>
 
 <div class="tenant-section"> <!-- change style tag to show/hide for now. TODO: change "second DELTflation" the way dissolveLength behaves -->
     <div id="move-in-out">
@@ -117,6 +74,51 @@
 </body>
 
 <!-- artifacts below. leave alone -->
+
+<section id="sliders" style="display:none">
+    <div class="DELT slider-container">
+        <label class="slider-label">DELTflation:</label>
+        <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
+        <span id="DELTflationValue">1.05</span>
+    </div>
+
+    <div class="DELT slider-container">
+        <label class="slider-label">Dissolve Length:</label>
+        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+        <span id="dissolveLengthValue">20</span>
+    </div>
+
+    <div class="DELT slider-container">
+        <label class="slider-label">Mortgage Rates:</label>
+        <input type="range" id="mortgageRate" min="0.00" max="0.08" value="0.07" class="slider">
+        <span id="mortgageRateValue">7%</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Mortgage Length:</label>
+        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+        <span id="mortgageLengthValue">20 years</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Home Price:</label>
+        <input type="range" id="homePrice" min="100000" max="2000000" value="400000" class="slider">
+        <span id="homePriceValue">$400,000</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label"># of Residents:</label>
+        <input type="range" id="housemates" min="1" max="20" value="5" class="slider">
+        <span id="housematesValue">5</span>
+    </div>
+
+    <div class="DELT slider-container" style="display: none">
+        <label class="slider-label">Year:</label>
+        <input type="range" id="year" min="1" max="100" value="1" class="slider">
+        <span id="yearValue">50</span>
+    </div>
+</section>
+
 
 <section id="canvases" style="display: none"> <!-- change style to show/hide -->
     <canvas id="rentCanvas" width="800" height="800"></canvas>
