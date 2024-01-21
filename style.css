@@ -1,4 +1,4 @@
-/* body {
+body {
     font-family: 'Courier New', Courier, monospace, sans-serif;
     text-align: center;
     width: 75%;
@@ -6,23 +6,23 @@
 }
 
 #title {
-    font-size: 5vw;
+    font-size: 12vw;
     font-weight: bold;
-    margin: auto;
+    margin: 10% auto;
 }
 
 #byline {
-    font-size: 2vw;
-    margin: 5% auto;
-}
-
-p {
-    font-size: 1.2vw;
-    margin: 5% 5%;
+    font-size: 8vw;
+    margin: 10% auto;
 }
 
 a {
     text-decoration: none;
+}
+
+#intro {
+    font-size: 4vw;
+    margin: 10% auto;
 }
 
 .slider-container {
@@ -52,17 +52,8 @@ a {
     justify-content: space-between;
 }
 
-.question {
-    text-align: center;
-}
-
-.question .a {
-    margin: 0 auto;
-    width: 50%;
-}
-
 .tenant-section {
-    display: flex;
+
     align-items: center;
 }
 
@@ -81,19 +72,9 @@ a {
     flex: 1;
 }
 
-.tenant-info {
-    flex: 1;
-    text-align: center;
-}
-
-.tenant-info span {
-    font-weight: bold;
-}
-
 #explainer {
     margin: 0 auto;
     width: 100%;
-    line-height: 2em;
 }
 
 #debt-graph {
@@ -102,23 +83,18 @@ a {
 
 .explainer-graph {
     border: 2px dotted black;
+    max-width: 100%;
 }
 
-@media only screen and (orientation: portrait) and (max-width: 820px) {
-    .tenant-section {
-        display:block;
-    }
-    h2 {
-        font-size: 60vw;
-    }
-    #byline {
-        font-size: 5vw;
-    }
-    h3 {
-        font-size: 20vw;
-    }
 
-    p {
-        font-size: 5vw;
-    }
-} */
+/* FAQ */
+
+.question {
+    text-align: center;
+}
+
+.question .a {
+    margin: 0 auto;
+    width: 50%;
+}
+

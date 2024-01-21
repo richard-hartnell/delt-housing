@@ -15,10 +15,10 @@
     <br>
     Unlike a conventional landlord,<br>a DELT pays tenants back for the equity they pay for.<br><br>
 
-    Whether with rebates in the early years or low costs in later years,<br>
-    a DELT can slash housing prices for tenants.<br><br>
+    Whether with rebates in the early years or low costs in later years,<br><br>
+    a DELT can permanently slash housing prices for tenants.<br><br>
 
-    This creates and maintains permanently affordable rental housing,<br>
+    This creates and maintains permanently affordable rental housing --<br><br>
     and for cheaper than "fair" market rate.<br>
 </h3>
 
@@ -28,28 +28,26 @@
 <div class="tenant-section"> <!-- change style tag to show/hide for now. TODO: change "second DELTflation" the way dissolveLength behaves -->
     <div id="move-in-out">
         <h3>Pretend you're a tenant!</h3>
-        <p>Change the sliders and the numbers below<br>and see how your results might change.</p>
-        "Year one" is when the home gets purchased<br>(i.e. 0% of the mortgage has been paid off).
         <div class="move-in-out-flex">
             <div class="tenant-slider">
-                <label class="slider-label">Move In Year:</label><br>
+                <label class="slider-label">Year you<br>move in:</label><br>
                 <input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
             </div>
             <div class="tenant-slider">
-                <label class="slider-label">Move Out Year:</label>
+                <label class="slider-label">Year you<br>move out:</label><br>
                 <input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
             </div>
         </div>
         <div class="message" id="moveOutMessage"></div>
     </div>
     <div class="tenant-info">
-        <p>I moved in during year <span id="tenantStartYear"></span> of the DELT and lived there <span id="tenantYears">Y</span> years.</p>
-        <p>I paid $<span id="tenantRentPaid">P</span> in rent over that time. At market-rate, I'd have paid $<span id="tenantRentPaidMR">Q</span>.</p>
-        <p>However, I was reimbursed $<span id="tenantEquityRepaid">Q</span> for my equity payments over time,<br>making my effective rent $<span id="tenantRentAdjusted">R</span> in total.</p>
-        <p>(that's $<span id="tenantRentAdjustedDeflated"></span> when reduced for inflation, compared to $<span id="tenantRentMRAdjustedDeflated"></span> at market rate.)</p>
-        <p>That's a <span id="adjustedVersusMR">P</span>% savings over a private landlord charging market rate.</p>
-        <p>When I moved in, rent was <span id="tenantStartRent">A</span>% of market rate.<br>
-        When I moved out, rent was <span id="tenantEndRent">B</span>% of market rate!</p>
+        <p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
+        <p>You pay <strong>$<span id="tenantRentPaid">P</span></strong> in rent over that time. At market-rate, you'd have paid <strong>$<span id="tenantRentPaidMR">Q</span></strong>.</p>
+        <p>However, you get reimbursed <strong>$<span id="tenantEquityRepaid">Q</span></strong> for your equity payments over time,<br>making your effective rent <strong>$<span id="tenantRentAdjusted">R</span></strong> in total.</p>
+        <p>(that's <strong>$<span id="tenantRentAdjustedDeflated"></span></strong> when reduced for inflation, compared to <strong>$<span id="tenantRentMRAdjustedDeflated"></span></strong> at market rate.)</p>
+        <p>That's a <strong><span id="adjustedVersusMR">P</span>%</strong> savings over a private landlord charging market rate.</p>
+        <p>When you move in, rent is <strong><span id="tenantStartRent">A</span>%</strong> of market rate.<br>
+        <p>When you move out, rent is <strong><span id="tenantEndRent">B</span>%</strong> of market rate!</p>
     </div>
 </div>
 
@@ -65,9 +63,8 @@
         but the payback rate slightly decreases.</p>
     <p>By the time distant-future tenants aren't getting paid back,
         the mortgage has dissolved and rent is so affordable it doesn't matter.</p>
-        <img id="debt-graph" class="explainer-graph" src="debt-graph-1.webp" alt="debt graph">
-        <img id="rent-graph" class="explainer-graph" src="rent-graph-1.webp" alt="rent graph">
-    <p>Click/touch each graph to get an idea.</p>
+        <img id="debt-graph" class="explainer-graph" src="debt-graph-4.webp" alt="debt graph">
+        <img id="rent-graph" class="explainer-graph" src="rent-graph-3.webp" alt="rent graph">
 </div>
 
 <a href="./faq.html" target="_blank"><button id="faq-button">Frequently asked questions</button></a>
@@ -75,7 +72,7 @@
 
 <!-- artifacts below. leave alone -->
 
-<section id="sliders" style="display:none">
+<section id="sliders">
     <div class="DELT slider-container">
         <label class="slider-label">DELTflation:</label>
         <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
@@ -120,7 +117,7 @@
 </section>
 
 
-<section id="canvases" style="display: none"> <!-- change style to show/hide -->
+<section id="canvases"> <!-- change style to show/hide -->
     <canvas id="rentCanvas" width="800" height="800"></canvas>
     <canvas id="debtCanvas" width="800" height="800"></canvas>
 </section>
