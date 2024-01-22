@@ -6,14 +6,15 @@ body {
 }
 
 #title {
-    font-size: 12vw;
+    font-size: 10vw;
     font-weight: bold;
     margin: 10% auto;
+    line-height: 0.9;
 }
 
 #byline {
-    font-size: 8vw;
-    margin: 10% auto;
+    font-size: 7vw;
+    margin: 7% auto;
 }
 
 a {
@@ -47,9 +48,14 @@ a {
     font-size: 18px;
 }
 
+#canvases {
+    max-width: 100%;
+}
+
 .results-container {
     display: flex;
     justify-content: space-between;
+    max-width: 100%;
 }
 
 .tenant-section {
@@ -85,7 +91,6 @@ a {
     border: 2px dotted black;
     max-width: 100%;
 }
-
 
 /* FAQ */
 
