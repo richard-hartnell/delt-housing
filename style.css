@@ -103,3 +103,45 @@ a {
     width: 50%;
 }
 
+@media only screen and (orientation: landscape) {
+    #title {
+        font-size: 5vw;
+    }
+
+    #byline {
+        font-size: 3vw;
+    }
+
+    #intro {
+        font-size: 2vw;
+    }
+
+    .slider-label {
+        font-size: 12px;
+    }
+
+    .output {
+        font-size: 16px;
+    }
+
+    .radio-label {
+        font-size: 12px;
+    }
+
+    .tenant-section p {
+        font-size: 1vw;
+    }
+
+    .explainer-graph {
+        display: inline;
+        max-width: 40vw;
+        margin: 0 0;
+    }
+
+
+/* FAQ */
+
+    .question .a {
+        width: 75%;
+    }
+}
