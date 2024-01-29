@@ -59,12 +59,20 @@ a {
 }
 
 .tenant-section {
-
+    font-size: 1.5vw;
     align-items: center;
 }
 
+.tenant-slider {
+    line-height: 1.5vh;
+}
+
+.tenant-section input {
+    height: 2vw;
+    font-size: 1.5vw;
+}
+
 .tenant-section p {
-    font-size: 18px;
     display: block;
 }
 
@@ -80,6 +88,7 @@ a {
 
 #explainer {
     margin: 0 auto;
+    font-size: 1.3vw;
     width: 100%;
 }
 
@@ -116,10 +125,6 @@ a {
         font-size: 2vw;
     }
 
-    .slider-label {
-        font-size: 12px;
-    }
-
     .output {
         font-size: 16px;
     }
@@ -128,8 +133,8 @@ a {
         font-size: 12px;
     }
 
-    .tenant-section p {
-        font-size: 1vw;
+    .tenant-section {
+        font-size: 4vw;
     }
 
     .explainer-graph {
@@ -137,9 +142,6 @@ a {
         max-width: 40vw;
         margin: 0 0;
     }
-
-
-/* FAQ */
 
     .question .a {
         width: 75%;
