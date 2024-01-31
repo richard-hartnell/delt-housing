@@ -59,7 +59,7 @@ a {
 }
 
 .tenant-section {
-    font-size: 1.5vw;
+    font-size: 3vw;
     align-items: center;
 }
 
@@ -76,6 +76,19 @@ a {
     display: block;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    margin: 2em auto;
+    font-size: 0.75em;
+}
+
+td {
+    padding: 1em;
+}
+
 .move-in-out-flex {
     display: flex;
     align-items: center;
@@ -88,17 +101,22 @@ a {
 
 #explainer {
     margin: 0 auto;
-    font-size: 1.3vw;
+    font-size: 2vw;
     width: 100%;
 }
 
-#debt-graph {
-    max-width: 100%;
+#debt-graph, #rent-graph {
+    max-width: 70%;
 }
 
 .explainer-graph {
     border: 2px dotted black;
     max-width: 100%;
+}
+
+button {
+    padding: 1em;
+    margin: 1em;
 }
 
 /* FAQ */
@@ -109,7 +127,7 @@ a {
 
 .question .a {
     margin: 0 auto;
-    width: 50%;
+    width: 80%;
 }
 
 @media only screen and (orientation: landscape) {
@@ -134,7 +152,7 @@ a {
     }
 
     .tenant-section {
-        font-size: 4vw;
+        font-size: 2vw;
     }
 
     .explainer-graph {

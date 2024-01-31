@@ -36,17 +36,17 @@ const simulateTenant = () => {
     let tenantEquityRepaidValue = 0;
     let adjustedVersusMRValue;
     const tenantMoveInYearValue = parseInt(moveInYear.value);
-    const tenantMoveOutYearValue = parseInt(moveOutYear.value);
+    const tenantMoveOutYearValue = tenantMoveInYearValue + parseInt(moveOutYear.value);
     tenantStartYear.textContent = tenantMoveInYearValue;
     tenantYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
 
-    if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
-        document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
-    } else {
-        document.getElementById('moveOutMessage').textContent = ""; // Clear the message
-    }
+    // if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
+    //     document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
+    // } else {
+    //     document.getElementById('moveOutMessage').textContent = ""; // Clear the message
+    // }
 
     for (i = tenantMoveInYearValue; i <= tenantMoveOutYearValue; i++) {
         tenantRentPaidValue += (DELTindex[i]);
@@ -69,6 +69,7 @@ const simulateTenant = () => {
     tenantRentAdjustedValue = Math.round(tenantRentPaidValue - tenantEquityRepaidValue);
     tenantRentPaid.textContent = Math.round(tenantRentPaidValue);
     tenantRentPaidMR.textContent = tenantRentPaidMRValue;
+    tenantRentPaidMR2.textContent = tenantRentPaidMRValue;
     tenantEquityRepaid.textContent = Math.round(tenantEquityRepaidValue);
     tenantRentAdjusted.textContent = tenantRentAdjustedValue;
     tenantRentAdjustedDeflated.textContent = Math.round(tenantRentAdjustedValue / Math.pow((1.03), parseInt(moveOutYear.value)));
