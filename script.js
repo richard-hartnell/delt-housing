@@ -28,10 +28,15 @@ const inflation = 1.03;
 const MRflation = 1.072;
 const debtIndexDELT = {};
 const debtIndexMR = {};
+const tenantRentPaidMR = document.getElementById('tenantRentPaidMR');
+const tenantRentPaidMR2 = document.getElementById('tenantRentPaidMR2');
+const tenantRentPaid = document.getElementById('tenantRentPaid');
+const tenantEquityRepaid = document.getElementById('tenantEquityRepaid');
+const tenantRentAdjustedDeflated = document.getElementById('tenantRentAdjustedDeflated');
+const tenantRentMRAdjustedDeflated = document.getElementById('tenantRentMRAdjustedDeflated');
 let currentDissolveLength = parseInt(dissolveLength.value);
 
 const simulateTenant = () => {
-    console.log("simulateTenant()");
     let tenantRentPaidValue = 0;
     let tenantRentPaidMRValue = 0;
     let tenantEquityRepaidValue = 0;
@@ -42,12 +47,7 @@ const simulateTenant = () => {
     tenantYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
-
-    // if (parseInt(moveOutYear.value) < parseInt(moveInYear.value)) {
-    //     document.getElementById('moveOutMessage').textContent = "Silly! You can't move out before you move in.";
-    // } else {
-    //     document.getElementById('moveOutMessage').textContent = ""; // Clear the message
-    // }
+    console.log(ML, DL);
 
     for (i = tenantMoveInYearValue; i <= tenantMoveOutYearValue; i++) {
         tenantRentPaidValue += (DELTindex[i]);
@@ -67,7 +67,7 @@ const simulateTenant = () => {
     }
 
     adjustedVersusMRValue = tenantRentPaidValue / tenantRentPaidMRValue;
-    tenantRentAdjustedValue = Math.round(tenantRentPaidValue - tenantEquityRepaidValue);
+    let tenantRentAdjustedValue = Math.round(tenantRentPaidValue - tenantEquityRepaidValue);
     tenantRentPaid.textContent = Math.round(tenantRentPaidValue);
     tenantRentPaidMR.textContent = tenantRentPaidMRValue;
     tenantRentPaidMR2.textContent = tenantRentPaidMRValue;
@@ -122,8 +122,6 @@ const updateDELTindex = () => {
         for (let i = 1; i <= 100; i++) {
         if (i <= _mortgageLength) {
             DELTindex[i] = Math.round(_firstMonthRent * Math.pow(DELTflation, i));
-        // } else if (i <= (_mortgageLength + _dissolveLength)) {
-        //     DELTindex[i] = Math.round(DELTindex[i - 1] * inflation);
         } else {
             DELTindex[i] = Math.round(DELTindex[i-1] * inflation);
             if (DELTindex[i] > INFindex[i]) {
@@ -358,20 +356,6 @@ function drawPlot() {
     secondPlot();
 }
 
-// function updateYAxisLabels(firstMonthRentValue, MRindex100) {
-//     const canvas = document.getElementById('rentCanvas');
-//     const ctx = canvas.getContext('2d');
-//     ctx.clearRect(0, 0, 60, canvas.height);
-
-//     // Draw labels on the Y axis
-//     ctx.font = '12px Arial';
-//     ctx.fillStyle = 'black';
-//     ctx.textAlign = 'right';
-//     ctx.fillText('$' + firstMonthRentValue, 55, canvas.height - 60);
-//     ctx.fillText('$' + MRindex100, 55, 30);
-//     drawPlot();
-// }
-
 function updateMortageLengthGraphLine(mortgageLengthValue) {
     const canvas = document.getElementById('rentCanvas');
     const ctx = canvas.getContext('2d');
@@ -389,7 +373,6 @@ function updateMortageLengthGraphLine(mortgageLengthValue) {
     ctx.moveTo(plotX, 30);
     ctx.lineTo(plotX, canvas.height - 30);
     ctx.lineWidth = 1;
-    // ctx.setLineDash([4, 4]); // Dotted line
 
     // Redraw the graph
     drawPlot();
@@ -427,14 +410,6 @@ function secondPlot() {
     loan_ctx.font = '16px Arial';
     loan_ctx.fillText('Y = Debt ($)', 0, 0);
     loan_ctx.restore(); // Restore the context state
-
-    // // Draw labels on the Y axis
-    // const maxDebt = debtIndexDELT[0] + 400000;
-    // loan_ctx.font = '12px Arial';
-    // loan_ctx.fillStyle = 'black';
-    // loan_ctx.textAlign = 'right';
-    // loan_ctx.fillText('$' + 0, 55, canvas_two.height - 65);
-    // loan_ctx.fillText('$' + maxDebt, 55, 45);
 
     // Draw labels on the X axis without overlapping the axis title
     loan_ctx.font = '12px Arial';
