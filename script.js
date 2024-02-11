@@ -31,6 +31,7 @@ const debtIndexMR = {};
 let currentDissolveLength = parseInt(dissolveLength.value);
 
 const simulateTenant = () => {
+    console.log("simulateTenant()");
     let tenantRentPaidValue = 0;
     let tenantRentPaidMRValue = 0;
     let tenantEquityRepaidValue = 0;
