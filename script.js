@@ -47,7 +47,6 @@ const simulateTenant = () => {
     tenantYears.textContent = tenantMoveOutYearValue - tenantMoveInYearValue;
     const ML = parseInt(mortgageLengthValue.textContent);
     const DL = parseInt(dissolveLengthValue.textContent);
-    console.log(ML, DL);
 
     for (i = tenantMoveInYearValue; i <= tenantMoveOutYearValue; i++) {
         tenantRentPaidValue += (DELTindex[i]);
@@ -73,8 +72,8 @@ const simulateTenant = () => {
     tenantRentPaidMR2.textContent = tenantRentPaidMRValue;
     tenantEquityRepaid.textContent = Math.round(tenantEquityRepaidValue);
     tenantRentAdjusted.textContent = tenantRentAdjustedValue;
-    tenantRentAdjustedDeflated.textContent = Math.round(tenantRentAdjustedValue / Math.pow((1.03), parseInt(moveOutYear.value)));
-    tenantRentMRAdjustedDeflated.textContent = Math.round(tenantRentPaidMRValue / Math.pow((1.03), parseInt(moveOutYear.value)));
+    tenantRentAdjustedDeflated.textContent = Math.round(tenantRentAdjustedValue / Math.pow((1.03), parseInt(tenantMoveOutYearValue - 1)));
+    tenantRentMRAdjustedDeflated.textContent = Math.round(tenantRentPaidMRValue / Math.pow((1.03), parseInt(tenantMoveOutYearValue - 1)));
     adjustedVersusMR.textContent = Math.round(100 - ((tenantRentAdjustedValue / tenantRentPaidMRValue) * 100).toFixed(1));
     tenantStartRent.textContent = Math.round((DELTindex[tenantMoveInYearValue] / MRindex[tenantMoveInYearValue]) * 100);
     tenantEndRent.textContent = Math.round((DELTindex[tenantMoveOutYearValue] / MRindex[tenantMoveOutYearValue]) * 100);

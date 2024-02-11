@@ -31,7 +31,8 @@ a {
 }
 
 .slider-label {
-    font-size: 18px;
+    font-size: 1.2em;
+    line-height: 1.5;
 }
 
 .output {
@@ -74,6 +75,12 @@ a {
 
 .tenant-section p {
     display: block;
+}
+
+#moveInYear, #moveOutYear {
+    height: 2em;
+    font-size: 1.2em;
+    width: 2em;
 }
 
 table, th, td {
