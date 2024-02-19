@@ -12,6 +12,7 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="rent, rent control, land trust, housing, cooperative, co-op, coop" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+
 	</head>
 	<body class="is-preload">
 
@@ -123,16 +124,92 @@
 				<!-- Section -->
 					<section>
 						<header>
-							<h2>Duis sed adpiscing veroeros amet</h2>
+							<h2>Play with the model</h2>
+							<div id="sliders">
+								<div class="DELT slider-container">
+									<label class="slider-label">DELTflation:</label>
+									<span id="DELTflationValue">1.05</span>
+									<input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
+									
+								</div>
+
+								<div class="DELT slider-container">
+									<label class="slider-label">Dissolve Length:</label>
+									<span id="dissolveLengthValue">20</span>
+									<input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+								</div>
+
+								<div class="DELT slider-container">
+									<label class="slider-label">Mortgage Rates:</label>
+									<span id="mortgageRateValue">7%</span>
+									<input type="range" id="mortgageRate" min="0.01" max="0.15" step="0.005" value="0.07" class="slider">
+								</div>
+
+								<div class="slider-container">
+									<label class="slider-label">Mortgage Length:</label>
+									<span id="mortgageLengthValue">20 years</span>
+									<input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+								</div>
+
+								<div class="slider-container">
+									<label class="slider-label">Home Price:</label>
+									<span id="homePriceValue">$500,000</span>
+									<input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
+								</div>
+
+								<div class="slider-container">
+									<label class="slider-label"># of Residents:</label>
+									<span id="housematesValue">4</span>
+									<input type="range" id="housemates" min="1" max="20" value="4" class="slider">
+								</div>
+
+								<div class="DELT slider-container" style="display: none">
+									<label class="slider-label">Year:</label>
+									<span id="yearValue">50</span>
+									<input type="range" id="year" min="1" max="100" value="1" class="slider">
+								</div>
+							</div>
+						
 						</header>
 						<div class="content">
-							<p><strong>Proin tempus feugiat</strong> sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore.</p>
-							<ul class="actions">
-								<li><a href="#" class="button primary large">Get Started</a></li>
-								<li><a href="#" class="button large">Learn More</a></li>
-							</ul>
-						</div>
+							<p><strong>Move the sliders</strong> to play around with the model for different housing prices, mortgage rates, et cetera.</p>
+							<!-- <div id="canvases"> -->
+							<canvas id="rentCanvas" width="400" height="400"></canvas>
+
+							<canvas id="debtCanvas" width="400" height="400"></canvas>
+							<!-- </div> -->
+							
+	
+							
+							<div class="results-container" style="display: none">
+								<div class="first-month-rent">
+									First Month Rent: $<span id="firstMonthRentValue">0</span>
+								</div>
+								<div class="result-column">
+									<label class="result-label">DELTindex:</label>
+								<div id="DELTindex" class="output">-</div>
+								</div>
+								<div class="result-column">
+									<label class="result-label">MRindex:</label>
+									<div id="MRindex" class="output">-</div>
+								</div>
+							</div>
 					</section>
+
+				<!-- Section -->
+				<section>
+					<header>
+						<h2>Duis sed adpiscing veroeros amet</h2>
+					</header>
+					<div class="content">
+						<p><strong>Proin tempus feugiat</strong> sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore.</p>
+						<ul class="actions">
+							<li><a href="#" class="button primary large">Get Started</a></li>
+							<li><a href="#" class="button large">Learn More</a></li>
+						</ul>
+					</div>
+				</section>
+
 
 				<!-- Elements -->
 				<!--
@@ -460,6 +537,84 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 
 			</div>
 
+		<!-- Variable helpers -->
+		<div class="tenant-section" style="display:none">
+			<div id="move-in-out">
+				<h3>Pretend you're<br>
+				renting a room!</h3>
+				<div class="move-in-out-flex">
+					<div class="tenant-slider">
+						<label class="slider-label">What year do you join the DELT?</label><br>
+						<input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
+					</div>
+					<svg width="20" height="100">
+						<line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
+					</svg>
+					<div class="tenant-slider">
+						<label class="slider-label">How many years do you live there?</label><br>
+						<input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
+					</div>
+				</div>
+				<p style="font-size: 0.7em">Fine print:<br>
+					$500k house; 4 housemates;<br>
+					20-year mortgage at 7%;<br>
+					plans over 100 years break this calculator</p>
+				<div class="message" id="moveOutMessage"></div>
+			</div>
+			<div class="tenant-info">
+				<table>
+					<tr>
+						<td></td>
+						<td><strong>DELT co-op</strong></td>
+						<td><strong>Private landlord</strong></td>
+					</tr>
+					<tr>
+						<td>All your rent:</td>
+						<td>$<span id="tenantRentPaid">0</span></td>
+						<td>$<span id="tenantRentPaidMR">0</span></td>
+					</tr>
+					<tr>
+						<td>Your rebate:</td>
+						<td>$<span id="tenantEquityRepaid">0</span></td>
+						<td>$0</span></td>
+					</tr>
+					<tr>
+						<td>All-time rent after rebate:</td>
+						<td>$<span id="tenantRentAdjusted">0</span></td>
+						<td>$<span id="tenantRentPaidMR2">0</span></td>
+					</tr>
+					<tr>
+						<td>...deflated to today's dollars:</td>
+						<td>$<span id="tenantRentAdjustedDeflated">0</span></td>
+						<td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
+					</tr>
+					<tr>
+						<td>Savings over market rate:</td>
+						<td><span id="adjustedVersusMR">0</span>%</td>
+						<td>0%</td>
+					</tr>
+					<tr>
+						<td>When you leave, rent is:</td>
+						<td><span id="tenantEndRent">0</span>% of market rate</td>
+						<td>100% of market rate</td>
+					</tr>
+				</table>
+		
+				<!-- no idea why this div is crucial for calculating above info, but apparently it is. leave it.-->
+				<div style="display: none">
+				<p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
+				<p>You pay <strong>$<span id="tenantRentPaid">P</span></strong> in rent over that time. At market-rate, you'd have paid <strong>$<span id="tenantRentPaidMR">Q</span></strong>.</p>
+				<p>However, you get reimbursed <strong>$<span id="tenantEquityRepaid">Q</span></strong> for your equity payments over time,<br>making your effective rent <strong>$<span id="tenantRentAdjusted">R</span></strong> in total.</p>
+				<p>(that's <strong>$<span id="tenantRentAdjustedDeflated"></span></strong> when reduced for inflation, compared to <strong>$<span id="tenantRentMRAdjustedDeflated"></span></strong> at market rate.)</p>
+				<p>That's a <strong><span id="adjustedVersusMR">P</span>%</strong> savings over a private landlord charging market rate.</p>
+				<p>When you move in,<br>rent is <strong><span id="tenantStartRent">A</span>%</strong> of market rate.<br>
+				<p>When you move out,<br>rent is <strong><span id="tenantEndRent">B</span>%</strong> of market rate!</p>
+				</div>
+		
+			</div>
+		</div>
+		
+
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -467,6 +622,7 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="script.js" defer></script>
 
 	</body>
 </html>

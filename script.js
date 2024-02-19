@@ -1,6 +1,6 @@
 // vars!
-const debtGraph = document.getElementById('debt-graph');
-const rentGraph = document.getElementById('rent-graph');
+// const debtGraph = document.getElementById('debt-graph');
+// const rentGraph = document.getElementById('rent-graph');
 const DELTflationSlider = document.getElementById('DELTflation');
 const DELTflationValue = document.getElementById('DELTflationValue');
 const dissolveLength = document.getElementById('dissolveLength');
@@ -181,23 +181,23 @@ const updateFirstMonthRent = () => {
     secondPlot();
 };
 
-debtGraph.addEventListener('click', () => {
-    if (debtGraph.src.match('debt-graph-1.webp')) {
-        debtGraph.src='debt-graph-2.webp';
-    } else if (debtGraph.src.match('debt-graph-2.webp')) {
-        debtGraph.src='debt-graph-3.webp';
-    } else if (debtGraph.src.match('debt-graph-3.webp')) {
-        debtGraph.src='debt-graph-4.webp';
-    }
-});
+// debtGraph.addEventListener('click', () => {
+//     if (debtGraph.src.match('debt-graph-1.webp')) {
+//         debtGraph.src='debt-graph-2.webp';
+//     } else if (debtGraph.src.match('debt-graph-2.webp')) {
+//         debtGraph.src='debt-graph-3.webp';
+//     } else if (debtGraph.src.match('debt-graph-3.webp')) {
+//         debtGraph.src='debt-graph-4.webp';
+//     }
+// });
 
-rentGraph.addEventListener('click', () => {
-    if (rentGraph.src.match('rent-graph-1.webp')) {
-        rentGraph.src='rent-graph-2.webp'
-    } else if (rentGraph.src.match('rent-graph-2.webp')) {
-        rentGraph.src='rent-graph-3.webp'
-    }
-});
+// rentGraph.addEventListener('click', () => {
+//     if (rentGraph.src.match('rent-graph-1.webp')) {
+//         rentGraph.src='rent-graph-2.webp'
+//     } else if (rentGraph.src.match('rent-graph-2.webp')) {
+//         rentGraph.src='rent-graph-3.webp'
+//     }
+// });
 
 DELTflationSlider.addEventListener('input', () => {
     const value = parseFloat(DELTflationSlider.value).toFixed(3);
@@ -223,6 +223,13 @@ homePrice.addEventListener('input', () => {
     homePriceValue.textContent = '$' + value;
     updateFirstMonthRent();
 });
+
+mortgageRate.addEventListener('input', () => {
+    const value = parseFloat(mortgageRate.value);
+    mortgageRateValue.textContent = (value * 100).toFixed(1) + "%";
+    updateFirstMonthRent();
+});
+
 
 housemates.addEventListener('input', () => {
     const value = parseInt(housemates.value);
