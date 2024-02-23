@@ -207,7 +207,7 @@ DELTflationSlider.addEventListener('input', () => {
 
 dissolveLength.addEventListener('input', () => {
     const value = parseInt(dissolveLength.value);
-    dissolveLengthValue.textContent = value;
+    dissolveLengthValue.textContent = value + ' years';
     updateFirstMonthRent();
 });
 

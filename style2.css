@@ -1,0 +1,175 @@
+body {
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+    text-align: center;
+    width: 75%;
+    margin: 0 auto;
+}
+
+#title {
+    font-size: 10vw;
+    font-weight: bold;
+    margin: 10% auto;
+    line-height: 0.9;
+}
+
+#byline {
+    font-size: 7vw;
+    margin: 7% auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+#intro {
+    font-size: 4vw;
+    margin: 10% auto;
+}
+
+.slider-container {
+    margin: 20px;
+}
+
+.slider-label {
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+.output {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.radio-container {
+    margin: 20px;
+}
+
+.radio-label {
+    font-size: 18px;
+}
+
+#canvases {
+    max-width: 100%;
+}
+
+.results-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+}
+
+.tenant-section {
+    font-size: 3vw;
+    align-items: center;
+}
+
+.tenant-slider {
+    line-height: 1.5vh;
+}
+
+.tenant-section input {
+    height: 2vw;
+    font-size: 1.5vw;
+}
+
+.tenant-section p {
+    display: block;
+}
+
+#moveInYear, #moveOutYear {
+    height: 2em;
+    font-size: 1.2em;
+    width: 2em;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    margin: 2em auto;
+    font-size: 0.75em;
+}
+
+td {
+    padding: 1em;
+}
+
+.move-in-out-flex {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+.tenant-slider {
+    flex: 1;
+}
+
+#explainer {
+    margin: 0 auto;
+    font-size: 2vw;
+    width: 100%;
+}
+
+#debt-graph, #rent-graph {
+    max-width: 70%;
+}
+
+.explainer-graph {
+    border: 2px dotted black;
+    max-width: 100%;
+}
+
+button {
+    padding: 1em;
+    margin: 1em;
+}
+
+/* FAQ */
+
+.question {
+    text-align: center;
+    line-height: 1.5;
+}
+
+.question .a {
+    margin: 0 auto;
+    width: 80%;
+}
+
+@media only screen and (orientation: landscape) {
+    #title {
+        font-size: 5vw;
+    }
+
+    #byline {
+        font-size: 3vw;
+    }
+
+    #intro {
+        font-size: 2vw;
+    }
+
+    .output {
+        font-size: 16px;
+    }
+
+    .radio-label {
+        font-size: 12px;
+    }
+
+    .tenant-section {
+        font-size: 2vw;
+    }
+
+    .explainer-graph {
+        display: inline;
+        max-width: 40vw;
+        margin: 0 0;
+    }
+
+    .question .a {
+        width: 75%;
+    }
+}

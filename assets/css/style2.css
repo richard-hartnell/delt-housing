@@ -1,0 +1,9 @@
+.slider-container {
+    line-height: 0.1em;
+    font-weight: bold;
+}
+
+.slider-label {
+    line-height: 0.2em;
+    margin: 10px auto;
+}
