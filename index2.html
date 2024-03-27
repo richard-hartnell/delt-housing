@@ -126,8 +126,8 @@
 				<!-- Section -->
 					<section>
 						<header>
-							<h2>Play with the model</h2>
-							<div id="sliders">
+							<h2>The model at work</h2>
+							<div id="sliders" style="display: none">
 								<div class="DELT slider-container">
 									<label class="slider-label">DELT :</label>
 									<span id="DELTflationValue">1.05</span>
@@ -173,15 +173,17 @@
 						
 						</header>
 						<div class="content">
-							<p><strong>Move the sliders</strong> to play around with the model for different housing prices, mortgage rates, et cetera.</p>
+							<!-- <p><strong>These graphs show</strong> to play around with the model for different housing prices, mortgage rates, et cetera.</p> -->
+							<p><strong>These graphs show</strong> the DELT at work. The top graph shows rent over time; the red line shows market-rate rent continuing to double every decade, with the blue line showing the relatively slow escalation of the cost of homeownership.<br>
+							<strong>The DELT in green</strong> shows the place where the magic happens: rent is held higher than base cost, but as soon as the equity is paid for then the rent accelerates at a dramatically lower rate than commercial rents, eventually converging with a cost like that of homeownership.</p>
 							<!-- <div id="canvases"> -->
 							<canvas id="rentCanvas" width="400" height="400"></canvas>
-
+							<p><strong>The second chart</strong> shows debt over time in a DELT versus a for-profit rental. Note that the red line, again reflecting market-rate rents, pays off the mortgage immediately. Afterward, since commercial rents are priced by market rate rather than by costs, the rent doesn't go down even though the property is paid off relatively quickly.
+								<br>Conversely, although the DELT is writing IOUs as it also pays off a home loan, it still becomes financially solvent -- while remaining affordable to working-class tenants.</p>
+	
 							<canvas id="debtCanvas" width="400" height="400"></canvas>
 							<!-- </div> -->
-							
-	
-							
+											
 							<div class="results-container" style="display: none">
 								<div class="first-month-rent">
 									First Month Rent: $<span id="firstMonthRentValue">0</span>
@@ -209,7 +211,6 @@
 						</ul>
 					</div>
 				</section>
-
 
 				<!-- Elements -->
 				<!--

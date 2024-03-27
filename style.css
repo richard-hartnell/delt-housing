@@ -66,6 +66,7 @@ a {
 
 .tenant-slider {
     line-height: 1.5vh;
+    flex: 1;
 }
 
 .tenant-section input {
@@ -100,10 +101,6 @@ td {
     display: flex;
     align-items: center;
     margin: 20px;
-}
-
-.tenant-slider {
-    flex: 1;
 }
 
 #explainer {
@@ -172,4 +169,5 @@ button {
     .question .a {
         width: 75%;
     }
+
 }
