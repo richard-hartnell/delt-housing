@@ -181,24 +181,6 @@ const updateFirstMonthRent = () => {
     secondPlot();
 };
 
-// debtGraph.addEventListener('click', () => {
-//     if (debtGraph.src.match('debt-graph-1.webp')) {
-//         debtGraph.src='debt-graph-2.webp';
-//     } else if (debtGraph.src.match('debt-graph-2.webp')) {
-//         debtGraph.src='debt-graph-3.webp';
-//     } else if (debtGraph.src.match('debt-graph-3.webp')) {
-//         debtGraph.src='debt-graph-4.webp';
-//     }
-// });
-
-// rentGraph.addEventListener('click', () => {
-//     if (rentGraph.src.match('rent-graph-1.webp')) {
-//         rentGraph.src='rent-graph-2.webp'
-//     } else if (rentGraph.src.match('rent-graph-2.webp')) {
-//         rentGraph.src='rent-graph-3.webp'
-//     }
-// });
-
 DELTflationSlider.addEventListener('input', () => {
     const value = parseFloat(DELTflationSlider.value).toFixed(3);
     DELTflationValue.textContent = value;
@@ -229,7 +211,6 @@ mortgageRate.addEventListener('input', () => {
     mortgageRateValue.textContent = (value * 100).toFixed(1) + "%";
     updateFirstMonthRent();
 });
-
 
 housemates.addEventListener('input', () => {
     const value = parseInt(housemates.value);
