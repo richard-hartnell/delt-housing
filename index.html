@@ -1,191 +1,622 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DELT Calculator</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+<!DOCTYPE HTML>
+<!--
+big ups to pixelarity.com for the clean theme.
+plz give them your money.
+License: pixelarity.com/license
+-->
+<html>
+	<head>
+		<title>Dissolving Equity Land Trust</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="A land trust model that can keep people living indoors." />
+		<meta name="keywords" content="rent, rent control, land trust, housing, cooperative, co-op, coop" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/style2.css" />
 
-<body>
-<h1 id="title">THE DISSOLVING EQUITY LAND TRUST</h1>
-<h2 id="byline">A proof of concept.</h2>
-<h3><p id="intro">
-    The DELT is a <a href="https://en.wikipedia.org/wiki/Housing_cooperative" target="_blank">cooperative housing</a> model.<br>
-    <br>
-    Unlike a conventional landlord, a DELT pays tenants back for the equity they pay for.<br>
-    <br>
-    This permanently creates rental housing
-    for around one-half of "fair" market rate.<br>
-</h3>
+	</head>
 
-<hr>
+	<body class="is-preload">
 
-<div class="tenant-section">
-    <div id="move-in-out">
-        <h3>Pretend you're<br>
-        renting a room!</h3>
-        <div class="move-in-out-flex">
-            <div class="tenant-slider">
-                <label class="slider-label">What year do you join the DELT?</label><br>
-                <input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
-            </div>
-            <svg width="20" height="100">
-                <line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
-            </svg>
-            <div class="tenant-slider">
-                <label class="slider-label">How many years do you live there?</label><br>
-                <input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
-            </div>
-        </div>
-        <p style="font-size: 0.7em">Fine print:<br>
-            $500k house; 4 housemates;<br>
-            20-year mortgage at 7%;<br>
-            plans over 100 years break this calculator</p>
-        <div class="message" id="moveOutMessage"></div>
-    </div>
-    <div class="tenant-info">
-        <table>
-            <tr>
-                <td></td>
-                <td><strong>DELT co-op</strong></td>
-                <td><strong>Private landlord</strong></td>
-            </tr>
-            <tr>
-                <td>All your rent:</td>
-                <td>$<span id="tenantRentPaid">0</span></td>
-                <td>$<span id="tenantRentPaidMR">0</span></td>
-            </tr>
-            <tr>
-                <td>Your rebate:</td>
-                <td>$<span id="tenantEquityRepaid">0</span></td>
-                <td>$0</span></td>
-            </tr>
-            <tr>
-                <td>All-time rent after rebate:</td>
-                <td>$<span id="tenantRentAdjusted">0</span></td>
-                <td>$<span id="tenantRentPaidMR2">0</span></td>
-            </tr>
-            <tr>
-                <td>...deflated to today's dollars:</td>
-                <td>$<span id="tenantRentAdjustedDeflated">0</span></td>
-                <td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
-            </tr>
-            <tr>
-                <td>Savings over market rate:</td>
-                <td><span id="adjustedVersusMR">0</span>%</td>
-                <td>0%</td>
-            </tr>
-            <tr>
-                <td>When you leave, rent is:</td>
-                <td><span id="tenantEndRent">0</span>% of market rate</td>
-                <td>100% of market rate</td>
-            </tr>
-        </table>
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Intro -->
+					<section class="intro">
+						<header>
+							<h1>The Dissolving Equity Land Trust</h1>
+							<p>A proof of concept</p>
+							<ul class="actions">
+								<li><a href="#first" class="arrow scrolly"><span class="label">Next</span></a></li>
+							</ul>
+						</header>
+						<div class="content">
+							<span class="image fill" data-position="center"><img src="images/rent-too-high.webp" alt="" /></span>
+						</div>
+					</section>
 
-        <!-- no idea why this div is crucial for calculating above info, but apparently it is. leave it.-->
-        <div style="display: none">
-        <p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
-        <p>You pay <strong>$<span id="tenantRentPaid">P</span></strong> in rent over that time. At market-rate, you'd have paid <strong>$<span id="tenantRentPaidMR">Q</span></strong>.</p>
-        <p>However, you get reimbursed <strong>$<span id="tenantEquityRepaid">Q</span></strong> for your equity payments over time,<br>making your effective rent <strong>$<span id="tenantRentAdjusted">R</span></strong> in total.</p>
-        <p>(that's <strong>$<span id="tenantRentAdjustedDeflated"></span></strong> when reduced for inflation, compared to <strong>$<span id="tenantRentMRAdjustedDeflated"></span></strong> at market rate.)</p>
-        <p>That's a <strong><span id="adjustedVersusMR">P</span>%</strong> savings over a private landlord charging market rate.</p>
-        <p>When you move in,<br>rent is <strong><span id="tenantStartRent">A</span>%</strong> of market rate.<br>
-        <p>When you move out,<br>rent is <strong><span id="tenantEndRent">B</span>%</strong> of market rate!</p>
-        </div>
+					<section id="first">
+						<header>
+							<h2>Permanent, affordable rental housing</h2>
+						</header>
+						<div class="content">
+							<p><strong>The quest for sustainable, affordable housing</strong> solutions has never been more urgent in the face of escalating housing crises worldwide. A significant and increasing population of workers cannot afford homeownership (or, in many places, even a decent rental), necessitating innovative approaches to address the dire need for accessible housing. Rampant rent speculation has driven prices so high that both temporary rental housing and permanent homes for purchase are increasingly out of reach. The Dissolving Equity Land Trust (DELT) emerges as a groundbreaking model in this landscape, offering a cooperative housing framework that not only promises affordability but also fosters community stability and long-term security for tenants.							</p>
+							<span class="image main"><img src="images/wages-vs-prod.jpg" alt="" /><p><em>Wages have been frozen relative to productivity since the Reagan years. Notably, <strong>ballooning rents are included in GDP even though nothing is produced by scalping a home</strong>.</em></p></span>
+						</div>
+					</section>
 
-    </div>
-</div>
+					<section>
+						<header>
+							<h2>FEATURES OF A CO-OP</h2>
+						</header>
+						<div class="content">
+							<p><strong>Removing the middle-man from rental housing</strong> has a number of really nice features.</p>
+							<ul class="feature-icons">
+								<li class="icon solid fa-bolt">Utilities included in already-low costs</li>
+								<li class="icon solid fa-signal">Rent escalates slowly, not quickly</li>
+								<li class="icon solid fa-cog">Faster, cheaper repairs</li>
+								<li class="icon solid fa-laptop">Progressive, not regressive, rents</li>
+								<li class="icon solid fa-code">No surprise evictions</li>
+								<li class="icon solid fa-map-marker-alt">Keeps money in the community</li>
+							</ul>
+							<p>However, there is <strong>one major drawback to the cooperative model: the problem of equity payments</strong>. While cooperatives dramatically reduce month-to-month rents,  they often require expensive buy-ins. This puts cooperative housing out of reach for working-class tenants who need affordable housing the most.</p>
+							<div class="gallery">
+								<img src="/college-students.webp" alt="" style="margin: 0 auto"/></a>
+							</div>
+							<br>
+							<p><strong>The DELT solves this equity dilemma</strong> by distributing equity payments among a much larger number of tenants.</p>
+						</div>
+					</section>
 
-<hr>
+					<section>
+						<header>
+							<h2>HOW DOES IT WORK?</h2>
+						</header>
+						<div class="content">
+							<p><strong>The DELT has a three-phase life cycle</strong> that reduces effective rents to roughly one-half market rate for tenants, no matter when they move in.</p>
 
-<div id="explainer">
-    <h2>How does it work?</h2>
-    <p>The DELT is inspired by "flattening the curve,"<br>
-        a strategy to prevent hospitals from being overwhelmed by COVID-19.</p>
-    <p>By applying this principle to equity payments,<br>
-    we don't need someone to front a ton of capital.</p>
-    <p>Early tenants pay the mortgage like regular tenants,<br>
-        but future tenants pay that back as a rebate.</p>
-    <p>Then, even later tenants pay back <em>those</em> tenants<br>
-        as the payback rate slowly decreases over time.</p>
-    <p>By the time distant-future tenants aren't getting paid back,<br>
-        rent is so affordable that rebates aren't needed.</p>
-    <p>After that, the home becomes "liberated territory" --<br>
-    permanently affordable rental housing!</p>
-        <img id="debt-graph" class="explainer-graph" src="debt-graph-4.webp" alt="debt graph"><br>
-        <img id="rent-graph" class="explainer-graph" src="rent-graph-3.webp" alt="rent graph">
-</div>
+							<!-- Section -->
+								<section>
+									<header>
+										<h3>The initial phase</h3>
+										<p>At the inception of a DELT, properties are purchased by a trust, which then leases these properties to tenants. Like traditional rental agreements, a portion of the monthly rent paid by tenants goes toward a home loan.</p>
+										<p>However, unlike traditional rentals, <strong>tenants are issued a future rebate for the portion of their rent that pays off home equity</strong>.</p>
+									</header>
+									<div class="content">
+										<div class="gallery">
+											<a href="/initial-phase.webp" class="landscape"><img src="/initial-phase.webp" alt="" /></a>
+											<p style="margin: 0 auto"><em>Imagine!</em></p>
+										</div>
+									</div>
+								</section>
 
-<button id="faq-button">Whitepaper coming soon</button>
-</body>
+					<section>
+						<header>
+							<h3>The dissolving phase</h3>
+							<p>Once the purchase price of the home is paid off, the cost of living is reduced dramatically. However, the DELT keeps rents where they are and allocates extra money toward paying back previous tenants.</p>
+							<p><strong>Dissolving-phase tenants are also paid a rebate in exchange for paying back the initial-phase tenants.</strong> However, in order to avoid creating something like a pyramid scheme with explosive costs, the rebate shrinks every year according to a dynamic mathematical model.</p>
+						</header>
+						<div class="content">
+							<div class="vallery">
+								<img src="/tenants-tiled.webp" alt="" style="width:100%"/>
+							</div>
+						</div>
+					</section>
 
-<!-- artifacts below. leave alone -->
+					<section>
+						<header>
+							<h3>The end phase</h3>
+							<p>Eventually, the home is paid off and the rebate given for equity payments shrinks to zero. The last of the tenant debt is paid off by end-phase tenants and the DELT is now financially solvent, holding home equity in trust.</p>
+							<p>Although end-phase tenants do not receive a rebate for their rent payments, <strong>rent in a mature DELT hovers around one-half of market rate (or possibly less)</strong>.</p>
+						</header>
+						<div class="content">
+							<div class="gallery">
+								<a href="tenant-5.png" class="landscape"><img src="tenant-5.png" alt="" /></a>
+								<p style="margin: 0 auto"><em>By the time this child goes to college,<br>she might still be stressed out by science homework</br>but not about whether she'll do homework indoors.</em></p>
 
-<section id="sliders">
-    <div class="DELT slider-container">
-        <label class="slider-label">DELTflation:</label>
-        <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
-        <span id="DELTflationValue">1.05</span>
-    </div>
+							</div>
+						</div>
+					</section>
 
-    <div class="DELT slider-container">
-        <label class="slider-label">Dissolve Length:</label>
-        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
-        <span id="dissolveLengthValue">20</span>
-    </div>
+						<!-- </div> -->
+					<!-- </section> -->
 
-    <div class="DELT slider-container">
-        <label class="slider-label">Mortgage Rates:</label>
-        <input type="range" id="mortgageRate" min="0.00" max="0.18" value="0.07" step="0.001" class="slider">
-        <span id="mortgageRateValue">7%</span>
-    </div>
+					<section>
+						<header>
+							<h2>The model at work</h2>
+							<div id="sliders" style="display: none">
+								<div class="DELT slider-container">
+									<label class="slider-label">DELT :</label>
+									<span id="DELTflationValue">1.05</span>
+									<input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
+								</div>
+								<br>
+								<div class="DELT slider-container">
+									<label class="slider-label">Time to dissolve:</label>
+									<span id="dissolveLengthValue">20 years</span>
+									<input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+								</div>
+								<br>
+								<div class="DELT slider-container">
+									<label class="slider-label">Mortgage Rates:</label>
+									<span id="mortgageRateValue">7%</span>
+									<input type="range" id="mortgageRate" min="0.01" max="0.15" step="0.005" value="0.07" class="slider">
+								</div>
+								<br>
+								<div class="slider-container">
+									<label class="slider-label">Mortgage Length:</label>
+									<span id="mortgageLengthValue">20 years</span>
+									<input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+								</div>
+								<br>
+								<div class="slider-container">
+									<label class="slider-label">Home Price:</label>
+									<span id="homePriceValue">$500,000</span>
+									<input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
+								</div>
+								<br>
+								<div class="slider-container">
+									<label class="slider-label"># of Residents:</label>
+									<span id="housematesValue">4</span>
+									<input type="range" id="housemates" min="1" max="20" value="4" class="slider">
+								</div>
+								<br>
+								<div class="DELT slider-container" style="display: none">
+									<label class="slider-label">Year:</label>
+									<span id="yearValue">50</span>
+									<input type="range" id="year" min="1" max="100" value="1" class="slider">
+								</div>
+							</div>
+						
+						</header>
+						<div class="content">
+							<p><strong>These graphs show</strong> the DELT at work. The top graph shows rent over time; the red line shows market-rate rent continuing to double every decade, with the blue line showing the relatively slow escalation of the cost of homeownership.<br>
+							<strong>The DELT in green</strong> shows the place where the magic happens: rent is held higher than base cost, but as soon as the equity is paid for then the rent accelerates at a dramatically lower rate than commercial rents, eventually converging with a cost like that of homeownership.</p>
+							<!-- <div id="canvases"> -->
+							<canvas id="rentCanvas" width="400" height="400"></canvas>
+							<p><strong>The second graph</strong> shows debt over time in a DELT versus a for-profit rental. Note that the red line, again reflecting market-rate rents, pays off the mortgage immediately. Afterward, since commercial rents are priced by market rate rather than by costs, the rent doesn't go down even though the property is paid off relatively quickly.<br>
+								<br>Conversely, although the DELT is writing IOUs as it also pays off a home loan, it still becomes financially solvent -- while remaining affordable to working-class tenants.</p>
+	
+							<canvas id="debtCanvas" width="400" height="400"></canvas>
+							<!-- </div> -->
+											
+							<div class="results-container" style="display: none">
+								<div class="first-month-rent">
+									First Month Rent: $<span id="firstMonthRentValue">0</span>
+								</div>
+								<div class="result-column">
+									<label class="result-label">DELTindex:</label>
+								<div id="DELTindex" class="output">-</div>
+								</div>
+								<div class="result-column">
+									<label class="result-label">MRindex:</label>
+									<div id="MRindex" class="output">-</div>
+								</div>
+							</div>
+					</section>
 
-    <div class="slider-container">
-        <label class="slider-label">Mortgage Length:</label>
-        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
-        <span id="mortgageLengthValue">20 years</span>
-    </div>
+				<section>
+					<header>
+						<h2>More details</h2>
+					</header>
+					<div class="content">
+						<p><strong>Read the more detailed report</strong> for a deeper dive on the way this system works.</p>
+						<ul class="actions">
+							<li><a href="#!" class="button primary large">Coming Soon</a></li>
+						</ul>
+					</div>
+				</section>
 
-    <div class="slider-container">
-        <label class="slider-label">Home Price:</label>
-        <input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
-        <span id="homePriceValue">$500,000</span>
-    </div>
+				<!-- Elements -->
+				<!--
+					<section>
+						<header>
+							<h2>Elements</h2>
+						</header>
+						<div class="content">
 
-    <div class="slider-container">
-        <label class="slider-label"># of Residents:</label>
-        <input type="range" id="housemates" min="1" max="20" value="4" class="slider">
-        <span id="housematesValue">4</span>
-    </div>
+							<section>
+								<header>
+									<h3>Text</h3>
+								</header>
+								<div class="content">
+									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+									<hr />
+									<h2>Heading Level 2</h2>
+									<h3>Heading Level 3</h3>
+									<h4>Heading Level 4</h4>
+									<h5>Heading Level 5</h5>
+									<hr />
+									<h5>Blockquote</h5>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+									<h5>Preformatted</h5>
+									<pre><code>i = 0;
 
-    <div class="DELT slider-container" style="display: none">
-        <label class="slider-label">Year:</label>
-        <input type="range" id="year" min="1" max="100" value="1" class="slider">
-        <span id="yearValue">50</span>
-    </div>
-</section>
+while (!deck.isInOrder()) {
+  print 'Iteration ' + i;
+  deck.shuffle();
+  i++;
+}
 
-<section id="canvases"> <!-- change style to show/hide -->
-    <canvas id="rentCanvas" width="700" height="700"></canvas>
-    <canvas id="debtCanvas" width="700" height="700"></canvas>
-</section>
+print 'Sorted in ' + i + ' iterations.';</code></pre>
+								</div>
+							</section>
 
-<div class="first-month-rent" style="display: none">
-    First Month Rent: $<span id="firstMonthRentValue">0</span>
-</div>
+							<section>
+								<header>
+									<h3>Lists</h3>
+								</header>
+								<div class="content">
 
-<div class="results-container" style="display: none">
-    <div class="result-column">
-        <label class="result-label">DELTindex:</label>
-        <div id="DELTindex" class="output">-</div>
-    </div>
-    <div class="result-column">
-        <label class="result-label">MRindex:</label>
-        <div id="MRindex" class="output">-</div>
-    </div>
-</div>
+									<h4>Unordered</h4>
+									<ul>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
 
-<script src="script.js"></script>
+									<h4>Alternate</h4>
+									<ul class="alt">
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
 
+									<h4>Ordered</h4>
+									<ol>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis viverra.</li>
+										<li>Felis enim feugiat.</li>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis lorem.</li>
+										<li>Felis enim et feugiat.</li>
+									</ol>
+									<h4>Icons</h4>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+									</ul>
+
+									<h4>Actions</h4>
+									<ul class="actions">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Table</h3>
+								</header>
+								<div class="content">
+									<h4>Default</h4>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+
+									<h4>Alternate</h4>
+									<div class="table-wrapper">
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Buttons</h3>
+								</header>
+								<div class="content">
+									<ul class="actions">
+										<li><a href="#" class="button primary">Primary</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button large">Large</a></li>
+										<li><a href="#" class="button">Default</a></li>
+										<li><a href="#" class="button small">Small</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
+									</ul>
+									<ul class="actions">
+										<li><span class="button primary disabled">Disabled</span></li>
+										<li><span class="button disabled">Disabled</span></li>
+									</ul>
+								</div>
+							</section>
+
+							<section>
+								<header>
+									<h3>Form</h3>
+								</header>
+								<div class="content">
+									<form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="demo-name">Name</label>
+												<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+											</div>
+											<div class="field half">
+												<label for="demo-email">Email</label>
+												<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
+											</div>
+											<div class="field">
+												<label for="demo-category">Category</label>
+												<select name="demo-category" id="demo-category">
+													<option value="">-</option>
+													<option value="1">Manufacturing</option>
+													<option value="1">Shipping</option>
+													<option value="1">Administration</option>
+													<option value="1">Human Resources</option>
+												</select>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+												<label for="demo-priority-low">Low</label>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-high" name="demo-priority">
+												<label for="demo-priority-high">High</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-copy" name="demo-copy">
+												<label for="demo-copy">Email me a copy</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-human" name="demo-human" checked>
+												<label for="demo-human">Not a robot</label>
+											</div>
+											<div class="field">
+												<label for="demo-message">Message</label>
+												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><input type="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Reset" /></li>
+										</ul>
+									</form>
+								</div>
+							</section>
+
+						</div>
+					</section>
+				-->
+
+					<section>
+						<header>
+							<h2>Stay updated</h2>
+						</header>
+						<div class="content">
+							<p><strong>Reach out if you have questions or you'd like to help.</strong></p>
+							<!-- <form>
+								<div class="fields">
+									<div class="field half">
+										<input type="text" name="name" id="name" placeholder="Name" />
+									</div>
+									<div class="field half">
+										<input type="email" name="email" id="email" placeholder="Email" />
+									</div>
+									<div class="field">
+										<textarea name="message" id="message" placeholder="Message" rows="7"></textarea>
+									</div>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" class="button primary" /></li>
+								</ul>
+							</form> -->
+						</div>
+						<footer>
+							<ul class="items">
+								<li>
+									<h3>Email</h3>
+									<a href="#">info@dissolvingequity.org</a>
+								</li>
+								<!-- <li>
+									<h3>Phone</h3>
+									<a href="#">(000) 000-0000</a>
+								</li> -->
+								<!-- <li>
+									<h3>Address</h3>
+									<span>Wherever you are!</span>
+								</li> -->
+								<!-- <li>
+									<h3>Elsewhere</h3>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+										<li><a href="#" class="icon brands fa-codepen"><span class="label">Codepen</span></a></li>
+									</ul>
+								</li> -->
+							</ul>
+						</footer>
+					</section>
+
+				<!-- Copyright -->
+					<div class="copyright">&copy;left. Distribute this model if you think it'll help people live indoors faster.</div>
+
+			</div>
+
+		<!-- Variable helpers -->
+		<div class="tenant-section" style="display:none">
+			<div id="move-in-out">
+				<h3>Pretend you're<br>
+				renting a room!</h3>
+				<div class="move-in-out-flex">
+					<div class="tenant-slider">
+						<label class="slider-label">What year do you join the DELT?</label><br>
+						<input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
+					</div>
+					<svg width="20" height="100">
+						<line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
+					</svg>
+					<div class="tenant-slider">
+						<label class="slider-label">How many years do you live there?</label><br>
+						<input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
+					</div>
+				</div>
+				<p style="font-size: 0.7em">Fine print:<br>
+					$500k house; 4 housemates;<br>
+					20-year mortgage at 7%;<br>
+					plans over 100 years break this calculator</p>
+				<div class="message" id="moveOutMessage"></div>
+			</div>
+			<div class="tenant-info">
+				<table>
+					<tr>
+						<td></td>
+						<td><strong>DELT co-op</strong></td>
+						<td><strong>Private landlord</strong></td>
+					</tr>
+					<tr>
+						<td>All your rent:</td>
+						<td>$<span id="tenantRentPaid">0</span></td>
+						<td>$<span id="tenantRentPaidMR">0</span></td>
+					</tr>
+					<tr>
+						<td>Your rebate:</td>
+						<td>$<span id="tenantEquityRepaid">0</span></td>
+						<td>$0</span></td>
+					</tr>
+					<tr>
+						<td>All-time rent after rebate:</td>
+						<td>$<span id="tenantRentAdjusted">0</span></td>
+						<td>$<span id="tenantRentPaidMR2">0</span></td>
+					</tr>
+					<tr>
+						<td>...deflated to today's dollars:</td>
+						<td>$<span id="tenantRentAdjustedDeflated">0</span></td>
+						<td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
+					</tr>
+					<tr>
+						<td>Savings over market rate:</td>
+						<td><span id="adjustedVersusMR">0</span>%</td>
+						<td>0%</td>
+					</tr>
+					<tr>
+						<td>When you leave, rent is:</td>
+						<td><span id="tenantEndRent">0</span>% of market rate</td>
+						<td>100% of market rate</td>
+					</tr>
+				</table>
+		
+				<!-- no idea why this div is crucial for calculating above info, but apparently it is. leave it.-->
+				<div style="display: none">
+				<p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
+				<p>You pay <strong>$<span id="tenantRentPaid">P</span></strong> in rent over that time. At market-rate, you'd have paid <strong>$<span id="tenantRentPaidMR">Q</span></strong>.</p>
+				<p>However, you get reimbursed <strong>$<span id="tenantEquityRepaid">Q</span></strong> for your equity payments over time,<br>making your effective rent <strong>$<span id="tenantRentAdjusted">R</span></strong> in total.</p>
+				<p>(that's <strong>$<span id="tenantRentAdjustedDeflated"></span></strong> when reduced for inflation, compared to <strong>$<span id="tenantRentMRAdjustedDeflated"></span></strong> at market rate.)</p>
+				<p>That's a <strong><span id="adjustedVersusMR">P</span>%</strong> savings over a private landlord charging market rate.</p>
+				<p>When you move in,<br>rent is <strong><span id="tenantStartRent">A</span>%</strong> of market rate.<br>
+				<p>When you move out,<br>rent is <strong><span id="tenantEndRent">B</span>%</strong> of market rate!</p>
+				</div>
+		
+			</div>
+		</div>
+		
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="script.js" defer></script>
+
+	</body>
 </html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DELT Calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+<h1 id="title">THE DISSOLVING EQUITY LAND TRUST</h1>
+<h2 id="byline">A proof of concept.</h2>
+<h3><p id="intro">
+    The DELT is a <a href="https://en.wikipedia.org/wiki/Housing_cooperative" target="_blank">cooperative housing</a> model.<br>
+    <br>
+    Unlike a conventional landlord, a DELT pays tenants back for the equity they pay for.<br>
+    <br>
+    This permanently creates rental housing
+    for around one-half of "fair" market rate.<br>
+</h3>
+
+<hr>
+
+<div class="tenant-section">
+    <div id="move-in-out">
+        <h3>Pretend you're<br>
+        renting a room!</h3>
+        <div class="move-in-out-flex">
+            <div class="tenant-slider">
+                <label class="slider-label">What year do you join the DELT?</label><br>
+                <input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
+            </div>
+            <svg width="20" height="100">
+                <line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
+            </svg>
+            <div class="tenant-slider">
+                <label class="slider-label">How many years do you live there?</label><br>
+                <input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
+            </div>
+        </div>
+        <p style="font-size: 0.7em">Fine print:<br>
+            $500k house; 4 housemates;<br>
+            20-year mortgage at 7%;<br>
+            plans over 100 years break this calculator</p>
+        <div class="message" id="moveOutMessage"></div>
+    </div>
+    <div class="tenant-info">
+        <table>
+            <tr>
+                <td></td>
+                <td><strong>DELT co-op</strong></td>
+                <td><strong>Private landlord</strong></td>
+            </tr>
+            <tr>
+                <td>All your rent:</td>
+                <td>$<span id="tenantRentPaid">0</span></td>
+                <td>$<span id="tenantRentPaidMR">0</span></td>
+            </tr>
+            <tr>
+                <td>Your rebate:</td>
+                <td>$<span id="tenantEquityRepaid">0</span></td>
+                <td>$0</span></td>
+            </tr>
+            <tr>
+                <td>All-time rent after rebate:</td>
+                <td>$<span id="tenantRentAdjusted">0</span></td>
+                <td>$<span id="tenantRentPaidMR2">0</span></td>
+            </tr>
+            <tr>
+                <td>...deflated to today's dollars:</td>
+                <td>$<span id="tenantRentAdjustedDeflated">0</span></td>
+                <td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
+            </tr>
+            <tr>
+                <td>Savings over market rate:</td>
+                <td><span id="adjustedVersusMR">0</span>%</td>
+                <td>0%</td>
+            </tr>
+            <tr>
+                <td>When you leave, rent is:</td>
+                <td><span id="tenantEndRent">0</span>% of market rate</td>
+                <td>100% of market rate</td>
+            </tr>
+        </table>
+
+        <!-- no idea why this div is crucial for calculating above info, but apparently it is. leave it.-->
+        <div style="display: none">
+        <p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
+        <p>You pay <strong>$<span id="tenantRentPaid">P</span></strong> in rent over that time. At market-rate, you'd have paid <strong>$<span id="tenantRentPaidMR">Q</span></strong>.</p>
+        <p>However, you get reimbursed <strong>$<span id="tenantEquityRepaid">Q</span></strong> for your equity payments over time,<br>making your effective rent <strong>$<span id="tenantRentAdjusted">R</span></strong> in total.</p>
+        <p>(that's <strong>$<span id="tenantRentAdjustedDeflated"></span></strong> when reduced for inflation, compared to <strong>$<span id="tenantRentMRAdjustedDeflated"></span></strong> at market rate.)</p>
+        <p>That's a <strong><span id="adjustedVersusMR">P</span>%</strong> savings over a private landlord charging market rate.</p>
+        <p>When you move in,<br>rent is <strong><span id="tenantStartRent">A</span>%</strong> of market rate.<br>
+        <p>When you move out,<br>rent is <strong><span id="tenantEndRent">B</span>%</strong> of market rate!</p>
+        </div>
+
+    </div>
+</div>
+
+<hr>
+
+<div id="explainer">
+    <h2>How does it work?</h2>
+    <p>The DELT is inspired by "flattening the curve,"<br>
+        a strategy to prevent hospitals from being overwhelmed by COVID-19.</p>
+    <p>By applying this principle to equity payments,<br>
+    we don't need someone to front a ton of capital.</p>
+    <p>Early tenants pay the mortgage like regular tenants,<br>
+        but future tenants pay that back as a rebate.</p>
+    <p>Then, even later tenants pay back <em>those</em> tenants<br>
+        as the payback rate slowly decreases over time.</p>
+    <p>By the time distant-future tenants aren't getting paid back,<br>
+        rent is so affordable that rebates aren't needed.</p>
+    <p>After that, the home becomes "liberated territory" --<br>
+    permanently affordable rental housing!</p>
+        <img id="debt-graph" class="explainer-graph" src="debt-graph-4.webp" alt="debt graph"><br>
+        <img id="rent-graph" class="explainer-graph" src="rent-graph-3.webp" alt="rent graph">
+</div>
+
+<button id="faq-button">Whitepaper coming soon</button>
+</body>
+
+<!-- artifacts below. leave alone -->
+
+<section id="sliders">
+    <div class="DELT slider-container">
+        <label class="slider-label">DELTflation:</label>
+        <input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
+        <span id="DELTflationValue">1.05</span>
+    </div>
+
+    <div class="DELT slider-container">
+        <label class="slider-label">Dissolve Length:</label>
+        <input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+        <span id="dissolveLengthValue">20</span>
+    </div>
+
+    <div class="DELT slider-container">
+        <label class="slider-label">Mortgage Rates:</label>
+        <input type="range" id="mortgageRate" min="0.00" max="0.18" value="0.07" step="0.001" class="slider">
+        <span id="mortgageRateValue">7%</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Mortgage Length:</label>
+        <input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+        <span id="mortgageLengthValue">20 years</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label">Home Price:</label>
+        <input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
+        <span id="homePriceValue">$500,000</span>
+    </div>
+
+    <div class="slider-container">
+        <label class="slider-label"># of Residents:</label>
+        <input type="range" id="housemates" min="1" max="20" value="4" class="slider">
+        <span id="housematesValue">4</span>
+    </div>
+
+    <div class="DELT slider-container" style="display: none">
+        <label class="slider-label">Year:</label>
+        <input type="range" id="year" min="1" max="100" value="1" class="slider">
+        <span id="yearValue">50</span>
+    </div>
+</section>
+
+<section id="canvases"> <!-- change style to show/hide -->
+    <canvas id="rentCanvas" width="700" height="700"></canvas>
+    <canvas id="debtCanvas" width="700" height="700"></canvas>
+</section>
+
+<div class="first-month-rent" style="display: none">
+    First Month Rent: $<span id="firstMonthRentValue">0</span>
+</div>
+
+<div class="results-container" style="display: none">
+    <div class="result-column">
+        <label class="result-label">DELTindex:</label>
+        <div id="DELTindex" class="output">-</div>
+    </div>
+    <div class="result-column">
+        <label class="result-label">MRindex:</label>
+        <div id="MRindex" class="output">-</div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</html>
