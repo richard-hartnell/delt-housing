@@ -13,7 +13,25 @@ License: pixelarity.com/license
 		<meta name="keywords" content="rent, rent control, land trust, housing, cooperative, co-op, coop" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/style2.css" />
-
+		<meta property="og:site_name" content="The Dissolving Equity Land Trust"/>
+		<meta property="og:title" content="The Dissolving Equity Land Trust"/>
+		<meta property="og:url" content="https://www.dissolvingequity.org"/>
+		<meta property="og:type" content="website"/>
+		<meta property="og:image" content="/anchor-logo.webp"/>
+		<meta property="og:image:width" content="1500"/>
+		<meta property="og:image:height" content="410"/>
+		<meta itemprop="name" content="The Admiralty Lounge"/>
+		<meta itemprop="url" content="https://www.theadmiraltylounge.com"/>
+		<meta itemprop="thumbnailUrl" content="./anchor-logo.webp"/>
+		<link rel="image_src" href="/images/rent-too-high.webp" />
+		<!-- <link rel="shortcut icon" href="/rudder-bullet.png"> -->
+		<meta itemprop="image" content="/images/rent-too-high.webp"/>
+		<meta name="twitter:title" content="The Dissolving Equity Land Trust"/>
+		<meta name="twitter:image" content="/images/rent-too-high.webp"/>
+		<meta name="twitter:url" content="https://www.dissolvingequity.org"/>
+		<meta name="twitter:card" content="summary"/>
+		<meta name="description" content="A rental model to mitigate the housing crisis.">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 
 	<body class="is-preload">
@@ -36,11 +54,11 @@ License: pixelarity.com/license
 
 					<section id="first">
 						<header>
-							<h2>Permanent, affordable rental housing</h2>
+							<h2>A truly affordable rental housing model</h2>
 						</header>
 						<div class="content">
-							<p><strong>The quest for sustainable, affordable housing</strong> solutions has never been more urgent in the face of escalating housing crises worldwide. A significant and increasing population of workers cannot afford homeownership (or, in many places, even a decent rental), necessitating innovative approaches to address the dire need for accessible housing. Rampant rent speculation has driven prices so high that both temporary rental housing and permanent homes for purchase are increasingly out of reach. The Dissolving Equity Land Trust (DELT) emerges as a groundbreaking model in this landscape, offering a cooperative housing framework that not only promises affordability but also fosters community stability and long-term security for tenants.							</p>
-							<span class="image main"><img src="images/wages-vs-prod.jpg" alt="" /><p><em>Wages have been frozen relative to productivity since the Reagan years. Notably, <strong>ballooning rents are included in GDP even though nothing is produced by scalping a home</strong>.</em></p></span>
+							<p><strong>The quest for sustainable, affordable housing</strong> has never been more urgent in the face of escalating housing crises worldwide. A significant and increasing population of workers cannot afford homeownership (or, in many places, even a decent rental), necessitating innovative approaches to address the dire need for accessible housing. Models that significantly reduce costs by eliminating private middle-men are rare and difficult to create. The Dissolving Equity Land Trust (DELT) emerges as a groundbreaking model in this landscape, offering a cooperative housing framework that fosters community stability and long-term security for tenants via a dynamic mathematical model inspired by <a href="https://www.newstatesman.com/spotlight/economic-growth/regional-development/housing/2023/02/vienna-model-social-housing">the Vienna Model</a> and <a href="https://en.wikipedia.org/wiki/Flattening_the_curve">COVID epidemiology</a>.</p>
+							<span class="image main"><img src="images/wages-vs-prod.jpg" alt="a graph shows how wages stopped growing in the 70s while productivity continued to rise dramatically." /><p><em>Wages have been frozen relative to productivity since the Nixon years. Notably, <strong>ballooning rents are included in GDP even though nothing is produced by scalping a home</strong>.</em></p></span>
 						</div>
 					</section>
 
@@ -49,7 +67,7 @@ License: pixelarity.com/license
 							<h2>FEATURES OF A CO-OP</h2>
 						</header>
 						<div class="content">
-							<p><strong>Removing the middle-man from rental housing</strong> has a number of really nice features.</p>
+							<p><strong>"Landlord-free" rental housing</strong> (such as a renter's cooperative) has a number of really nice features.</p>
 							<ul class="feature-icons">
 								<li class="icon solid fa-bolt">Utilities included in already-low costs</li>
 								<li class="icon solid fa-signal">Rent escalates slowly, not quickly</li>
@@ -111,62 +129,59 @@ License: pixelarity.com/license
 						<div class="content">
 							<div class="gallery">
 								<a href="./tenant-5.png" class="landscape"><img src="./tenant-5.png" loading="lazy" alt="a young girl leans her head pensively against a wall, staring at the viewer with a thoughtful frown" /></a>
-								<p style="margin: 0 auto; max-width: 80%"><em>By the time this child goes to college<br>math homework may still stress her out,</br>but not whether she can afford<br>to do her homework inside.</em></p>
-
+								<p style="margin: 0 auto; max-width: 80%"><em>By the time this child goes to college<br>she might still sweat about homework,</br>but she shouldn't stress about whether<br>she can afford a home to do it in.</em></p>
 							</div>
 						</div>
 					</section>
 
-						<!-- </div> -->
-					<!-- </section> -->
+					<!-- slider section that makes the charts work. this will eventually be reshown -->
+					<div id="sliders" style="display: none">
+						<div class="DELT slider-container">
+							<label class="slider-label">DELT :</label>
+							<span id="DELTflationValue">1.05</span>
+							<input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
+						</div>
+						<br>
+						<div class="DELT slider-container">
+							<label class="slider-label">Time to dissolve:</label>
+							<span id="dissolveLengthValue">20 years</span>
+							<input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
+						</div>
+						<br>
+						<div class="DELT slider-container">
+							<label class="slider-label">Mortgage Rates:</label>
+							<span id="mortgageRateValue">7%</span>
+							<input type="range" id="mortgageRate" min="0.01" max="0.15" step="0.005" value="0.07" class="slider">
+						</div>
+						<br>
+						<div class="slider-container">
+							<label class="slider-label">Mortgage Length:</label>
+							<span id="mortgageLengthValue">20 years</span>
+							<input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
+						</div>
+						<br>
+						<div class="slider-container">
+							<label class="slider-label">Home Price:</label>
+							<span id="homePriceValue">$500,000</span>
+							<input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
+						</div>
+						<br>
+						<div class="slider-container">
+							<label class="slider-label"># of Residents:</label>
+							<span id="housematesValue">4</span>
+							<input type="range" id="housemates" min="1" max="20" value="4" class="slider">
+						</div>
+						<br>
+						<div class="DELT slider-container" style="display: none">
+							<label class="slider-label">Year:</label>
+							<span id="yearValue">50</span>
+							<input type="range" id="year" min="1" max="100" value="1" class="slider">
+						</div>
+					</div>
 
 					<section>
 						<header>
 							<h2>The model at work</h2>
-							<div id="sliders" style="display: none">
-								<div class="DELT slider-container">
-									<label class="slider-label">DELT :</label>
-									<span id="DELTflationValue">1.05</span>
-									<input type="range" id="DELTflation" min="1.03" max="1.06" step="0.002" value="1.055" class="slider">
-								</div>
-								<br>
-								<div class="DELT slider-container">
-									<label class="slider-label">Time to dissolve:</label>
-									<span id="dissolveLengthValue">20 years</span>
-									<input type="range" id="dissolveLength" min="10" max="60" value="20" class="slider">
-								</div>
-								<br>
-								<div class="DELT slider-container">
-									<label class="slider-label">Mortgage Rates:</label>
-									<span id="mortgageRateValue">7%</span>
-									<input type="range" id="mortgageRate" min="0.01" max="0.15" step="0.005" value="0.07" class="slider">
-								</div>
-								<br>
-								<div class="slider-container">
-									<label class="slider-label">Mortgage Length:</label>
-									<span id="mortgageLengthValue">20 years</span>
-									<input type="range" id="mortgageLength" min="10" max="40" value="20" class="slider">
-								</div>
-								<br>
-								<div class="slider-container">
-									<label class="slider-label">Home Price:</label>
-									<span id="homePriceValue">$500,000</span>
-									<input type="range" id="homePrice" min="100000" max="2000000" value="500000" class="slider">
-								</div>
-								<br>
-								<div class="slider-container">
-									<label class="slider-label"># of Residents:</label>
-									<span id="housematesValue">4</span>
-									<input type="range" id="housemates" min="1" max="20" value="4" class="slider">
-								</div>
-								<br>
-								<div class="DELT slider-container" style="display: none">
-									<label class="slider-label">Year:</label>
-									<span id="yearValue">50</span>
-									<input type="range" id="year" min="1" max="100" value="1" class="slider">
-								</div>
-							</div>
-						
 						</header>
 						<div class="content">
 							<p><strong>These graphs show</strong> the DELT at work. The top graph shows rent over time; the red line shows market-rate rent continuing to double every decade, with the blue line showing the relatively slow escalation of the cost of homeownership.<br>
@@ -174,8 +189,7 @@ License: pixelarity.com/license
 							<!-- <div id="canvases"> -->
 							<canvas id="rentCanvas" width="400" height="400"></canvas>
 							<p><strong>The second graph</strong> shows debt over time in a DELT versus a for-profit rental. Note that the red line, again reflecting market-rate rents, pays off the mortgage immediately. Afterward, since commercial rents are priced by market rate rather than by costs, the rent doesn't go down even though the property is paid off relatively quickly.<br>
-								<br>Conversely, although the DELT is writing IOUs as it also pays off a home loan, it still becomes financially solvent -- while remaining affordable to working-class tenants.</p>
-	
+								<br>Conversely, the DELT is writing IOUs as it also pays off a home loan, acrruing more debt over time. But in the end, it still becomes financially solvent -- all while remaining affordable to working-class tenants. Cities and other public entities are well-suited to start a DELT considering that they are more able to wait for this expenditure to be repaid by tenants -- especially in light of the money saved by reduced expenditures on the consequences of public homelessness (which correlates with high rents).</p>
 							<canvas id="debtCanvas" width="400" height="400"></canvas>
 							<!-- </div> -->
 											
