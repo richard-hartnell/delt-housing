@@ -83,7 +83,7 @@ License: pixelarity.com/license
 									</header>
 									<div class="content">
 										<div class="gallery">
-											<a href="/initial-phase.webp" class="landscape"><img src="/initial-phase.webp" alt="" /></a>
+											<a href="./initial-phase.webp" class="landscape"><img src="./initial-phase.webp" alt="" /></a>
 											<p style="margin: 0 auto"><em>Imagine!</em></p>
 										</div>
 									</div>
@@ -123,7 +123,7 @@ License: pixelarity.com/license
 					<section>
 						<header>
 							<h2>The model at work</h2>
-							<div id="sliders" style="display: none">
+							<div id="sliders" display="none">
 								<div class="DELT slider-container">
 									<label class="slider-label">DELT :</label>
 									<span id="DELTflationValue">1.05</span>
@@ -169,16 +169,16 @@ License: pixelarity.com/license
 						
 						</header>
 						<div class="content">
-							<p><strong>These graphs show</strong> the DELT at work. The top graph shows rent over time; the red line shows market-rate rent continuing to double every decade, with the blue line showing the relatively slow escalation of the cost of homeownership.<br>
+							<p><strong>These graphs show</strong> the DELT at work. The top graph shows rent over time; the red line shows market-rate rent continuing to double every decade, with the blue line showing the relatively slow escalation of the cost of homeownership (rising tax or utility payments, etc).<br>
+							<canvas id="rentCanvas" width="400" height="400"></canvas>
+							<br>
 							<strong>The DELT in green</strong> shows the place where the magic happens: rent is held higher than base cost, but as soon as the equity is paid for then the rent accelerates at a dramatically lower rate than commercial rents, eventually converging with a cost like that of homeownership.</p>
 							<!-- <div id="canvases"> -->
-							<canvas id="rentCanvas" width="400" height="400"></canvas>
-							<p><strong>The second graph</strong> shows debt over time in a DELT versus a for-profit rental. Note that the red line, again reflecting market-rate rents, pays off the mortgage immediately. Afterward, since commercial rents are priced by market rate rather than by costs, the rent doesn't go down even though the property is paid off relatively quickly.<br>
-								<br>Conversely, although the DELT is writing IOUs as it also pays off a home loan, it still becomes financially solvent -- while remaining affordable to working-class tenants.</p>
-	
 							<canvas id="debtCanvas" width="400" height="400"></canvas>
 							<!-- </div> -->
-											
+							<p><strong>The second graph</strong> shows debt over time in DELT vs. for-profit rentals. At market-rate rents (red line), tenants quickly pay off the mortgage with no returns.<br>
+								<br>Since a DELT (green line) is writing IOUs as it also pays off a home loan, its debt increases in the early years. But despite below-market-rate rents, it still pays off its debt over time.</p>
+												
 							<div class="results-container" style="display: none">
 								<div class="first-month-rent">
 									First Month Rent: $<span id="firstMonthRentValue">0</span>
@@ -193,6 +193,70 @@ License: pixelarity.com/license
 								</div>
 							</div>
 					</section>
+
+					<div class="tenant-section">
+						<div id="move-in-out">
+							<h3>Pretend you're<br>
+							renting a room!</h3>
+							<div class="move-in-out-flex">
+								<div class="tenant-slider">
+									<label class="slider-label">What year do you join the DELT?</label><br>
+									<input type="range" id="moveInYear" min="1" max="50" value="1" class="slider" step="1">
+								</div>
+								<!-- <svg width="20" height="100">
+									<line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
+								</svg> -->
+								<div class="tenant-slider">
+									<label class="slider-label">How many years do you live there?</label><br>
+									<input type="range" id="moveOutYear" min="1" max="50" value="5" class="slider" step="1">
+								</div>
+							</div>
+							<p style="font-size: 0.7em">Fine print:<br>
+								$500k house; 4 housemates;<br>
+								20-year mortgage at 7%<br></p>
+							<div class="message" id="moveOutMessage"></div>
+						</div>
+						<div class="tenant-info">
+							<table>
+								<tr>
+									<td></td>
+									<td><strong>DELT co-op</strong></td>
+									<td><strong>Private landlord</strong></td>
+								</tr>
+								<tr>
+									<td>All your rent:</td>
+									<td>$<span id="tenantRentPaid">0</span></td>
+									<td>$<span id="tenantRentPaidMR">0</span></td>
+								</tr>
+								<tr>
+									<td>Your rebate:</td>
+									<td>$<span id="tenantEquityRepaid">0</span></td>
+									<td>$0</span></td>
+								</tr>
+								<tr>
+									<td>All-time rent after rebate:</td>
+									<td>$<span id="tenantRentAdjusted">0</span></td>
+									<td>$<span id="tenantRentPaidMR2">0</span></td>
+								</tr>
+								<tr>
+									<td>...deflated to today's dollars:</td>
+									<td>$<span id="tenantRentAdjustedDeflated">0</span></td>
+									<td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
+								</tr>
+								<tr>
+									<td>Savings over market rate:</td>
+									<td><span id="adjustedVersusMR">0</span>%</td>
+									<td>0%</td>
+								</tr>
+								<tr>
+									<td>When you leave, rent is:</td>
+									<td><span id="tenantEndRent">0</span>% of market rate</td>
+									<td>100% of market rate</td>
+								</tr>
+							</table>
+
+						</div>
+					</div>
 
 				<section>
 					<header>
@@ -531,69 +595,7 @@ print 'Sorted in ' + i + ' iterations.';</code></pre>
 
 			</div>
 
-		<!-- Variable helpers -->
-		<div class="tenant-section" style="display:none">
-			<div id="move-in-out">
-				<h3>Pretend you're<br>
-				renting a room!</h3>
-				<div class="move-in-out-flex">
-					<div class="tenant-slider">
-						<label class="slider-label">What year do you join the DELT?</label><br>
-						<input type="number" id="moveInYear" min="1" max="100" value="1" class="slider" step="1">
-					</div>
-					<svg width="20" height="100">
-						<line x1="10" y1="0" x2="10" y2="100" style="stroke:rgb(0,0,0); stroke-width:2" />
-					</svg>
-					<div class="tenant-slider">
-						<label class="slider-label">How many years do you live there?</label><br>
-						<input type="number" id="moveOutYear" min="1" max="100" value="5" class="slider" step="1">
-					</div>
-				</div>
-				<p style="font-size: 0.7em">Fine print:<br>
-					$500k house; 4 housemates;<br>
-					20-year mortgage at 7%;<br>
-					plans over 100 years break this calculator</p>
-				<div class="message" id="moveOutMessage"></div>
-			</div>
-			<div class="tenant-info">
-				<table>
-					<tr>
-						<td></td>
-						<td><strong>DELT co-op</strong></td>
-						<td><strong>Private landlord</strong></td>
-					</tr>
-					<tr>
-						<td>All your rent:</td>
-						<td>$<span id="tenantRentPaid">0</span></td>
-						<td>$<span id="tenantRentPaidMR">0</span></td>
-					</tr>
-					<tr>
-						<td>Your rebate:</td>
-						<td>$<span id="tenantEquityRepaid">0</span></td>
-						<td>$0</span></td>
-					</tr>
-					<tr>
-						<td>All-time rent after rebate:</td>
-						<td>$<span id="tenantRentAdjusted">0</span></td>
-						<td>$<span id="tenantRentPaidMR2">0</span></td>
-					</tr>
-					<tr>
-						<td>...deflated to today's dollars:</td>
-						<td>$<span id="tenantRentAdjustedDeflated">0</span></td>
-						<td>$<span id="tenantRentMRAdjustedDeflated">0</span></td>
-					</tr>
-					<tr>
-						<td>Savings over market rate:</td>
-						<td><span id="adjustedVersusMR">0</span>%</td>
-						<td>0%</td>
-					</tr>
-					<tr>
-						<td>When you leave, rent is:</td>
-						<td><span id="tenantEndRent">0</span>% of market rate</td>
-						<td>100% of market rate</td>
-					</tr>
-				</table>
-		
+		<!-- Variable helpers -->	
 				<!-- no idea why this div is crucial for calculating above info, but apparently it is. leave it.-->
 				<div style="display: none">
 				<p>You move in during year <span id="tenantStartYear"></span> of the DELT and live there <span id="tenantYears">Y</span> years.</p>
