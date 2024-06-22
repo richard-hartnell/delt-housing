@@ -289,7 +289,7 @@ function drawPlot() {
     ctx.font = '12px Arial';
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
-    for (let x = 5; x <= 100; x += 5) {
+    for (let x = 5; x <= 50; x += 5) {
         const plotX = (x - minX) / (maxX - minX) * (canvas.width - 90) + 60;
         ctx.fillText(x, plotX, canvas.height - 10);
     }
@@ -402,7 +402,7 @@ function secondPlot() {
     loan_ctx.font = '12px Arial';
     loan_ctx.fillStyle = 'black';
     loan_ctx.textAlign = 'center';
-    for (let x = 5; x <= 100; x += 5) {
+    for (let x = 5; x <= 50; x += 5) {
         const plotX = (x - minX) / (maxX - minX) * (canvas_two.width - 90) + 60;
         loan_ctx.fillText(x, plotX, canvas_two.height - 10);
     }
