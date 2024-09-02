@@ -1,6 +1,6 @@
 # The Dissolving Equity Land Trust
 ## a fairer housing model that would reward, not exploit, tenants for paying off rental housing equity
-### (working title)
+###
 
 This is a cooperative housing model that I'm building right now in JS.
 
